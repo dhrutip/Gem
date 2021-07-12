@@ -4,54 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_margin="16dp"
-    tools:context=".LoginActivity">
+    tools:context=".SignUpActivity">
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etNewUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="Username" />
+        android:hint="username" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etPasswordOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_below="@id/etUsername"
+        android:layout_below="@id/etNewUsername"
         android:ems="10"
-        android:hint="Password"
+        android:hint="password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/etPasswordTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@id/etPasswordOne"
+        android:ems="10"
+        android:hint="re-enter password"
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnCreateAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/etPassword"
-        android:text="Login" />
-
-    <TextView
-        android:id="@+id/tvSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
-        android:layout_below="@id/btnLogin"
-        android:text="No account? No worries!" />
-
-    <Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/tvSignUp"
+        android:layout_below="@id/etPasswordTwo"
         android:text="Sign Up" />
 
 </RelativeLayout>
