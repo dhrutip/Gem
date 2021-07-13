@@ -15,7 +15,7 @@ To view my project plan and stay updated on my progress, check out this [Notion]
 ### App Evaluation
 - **Category:** Travel
 - **Mobile:** Mobile first experience--travelers often have easier access to their phones/an app than a website. Mobile allows for on-the-go exploration.
-- **Story:** Allows travelers to discover hidden gems at destinations and have authentic experiences by connecting to local guides, who can host experiences and share their culture.  
+- **Story:** Allows travelers to discover hidden gems at destinations and have authentic experiences by connecting to local guides, who can host experiences and share their culture.
 - **Market:** Anyone traveling who is interested in a more authentic travel experience as opposed to a touristy trip. Any locals interested in sharing their culture, potentially for compensation.
 - **Habit:** Travelers would use this on a daily basis when planning their trips, locals would use this as a side-hustle
 - **Scope:** Gem would start out by allowing locals to post experiences/trips, and allowing travelers to view, filter based on category and location, and match with said experiences/trips. It could expand to allow travelers to chat with locals, and even get notifications for nearby activities when posted.
@@ -27,7 +27,7 @@ To view my project plan and stay updated on my progress, check out this [Notion]
 **Required Must-have Stories**
 
 - [ ] Users can log in/log out of the app
-- [ ] Users can create a new account
+- [x] Users can create a new account
 - [ ] Locals can post new experiences
   - [ ] Each post allows for a title, description, location, contact info, and images
 - [ ] Users can scroll through experiences (feed)
@@ -88,7 +88,7 @@ Optional:
 ## Wireframes
 <img src="wireframes.jpeg" alt="hand sketched wireframes" width="500"/>
 
-## Schema 
+## Schema
 ### Models
 #### Experience
 | Property     | Type            | Description                                 |
@@ -108,8 +108,14 @@ Optional:
 | username     | String | username for user, set at account creation  |
 | password     | String | password for user, set at account creation  |
 | profileImage | File   | profile photo for user                      |
-| commitments  | Array  | list of all favorited experiences           |
 | passions     | Array  | list of all selected passions (optional)    |
+
+#### Commitments
+join table for users - experiences
+| Property     | Type                  | Description                  |
+|--------------|-----------------------|------------------------------|
+| user         | pointer to User       | unique id for the user       |
+| experience   | pointer to Experience | unique id for the experience |
 
 ### Networking
 - [Add list of network requests by screen ]
