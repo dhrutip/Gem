@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationView;
 
     @Override
