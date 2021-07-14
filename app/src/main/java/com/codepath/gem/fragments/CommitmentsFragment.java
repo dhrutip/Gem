@@ -2,23 +2,39 @@ package com.codepath.gem.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.gem.R;
+import com.codepath.gem.adapters.ExperiencesAdapter;
+import com.codepath.gem.models.Commitment;
+import com.codepath.gem.models.Experience;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
 public class CommitmentsFragment extends Fragment {
+
+    public static final String TAG = "CommitmentsFragment";
+    protected RecyclerView rvExperiences;
+    protected List<Experience> allExperiences;
+    protected ExperiencesAdapter experiencesAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     public CommitmentsFragment() {
         // Required empty public constructor
@@ -32,7 +48,57 @@ public class CommitmentsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        rvExperiences = view.findViewById(R.id.rvExperiences);
+        allExperiences = new ArrayList<>();
+        experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences);
+
+        rvExperiences.setAdapter(experiencesAdapter);
+        rvExperiences.setLayoutManager(new LinearLayoutManager(getContext()));
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                experiencesAdapter.clear();
+                queryExperiences();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        queryExperiences();
+    }
+
+    protected void queryExperiences() {
+        ParseQuery<Commitment> query = ParseQuery.getQuery(Commitment.class);
+        query.include(Commitment.KEY_USER);
+        query.whereEqualTo(Commitment.KEY_USER, ParseUser.getCurrentUser());
+        query.setLimit(20);
+        query.addAscendingOrder(Commitment.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Commitment>() {
+            @Override
+            public void done(List<Commitment> commitmentsList, ParseException e) {
+                ArrayList<Experience> experienceList = new ArrayList<>();
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                Log.i(TAG, "Commitments: size of " + commitmentsList.size());
+                for (Commitment commitment : commitmentsList) {
+                    Log.i(TAG, "Commitments: " + ", id: " + commitment.getObjectId());
+                    Experience commitmentExp = (Experience) commitment.getExperience();
+                    Log.i(TAG, "Commitments: " + ", exp id: " + commitmentExp.getObjectId());
+                    experienceList.add(commitmentExp);
+                }
+                allExperiences.addAll(experienceList);
+                experiencesAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

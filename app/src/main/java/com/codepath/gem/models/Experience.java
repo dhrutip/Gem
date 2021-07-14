@@ -3,6 +3,7 @@ package com.codepath.gem.models;
 import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -27,7 +28,16 @@ public class Experience extends ParseObject {
     public Experience() {}
 
     public String getTitle() {
-        return getString(KEY_TITLE);
+//        return getString(KEY_TITLE);
+        String title = "";
+        try {
+            title = fetchIfNeeded().getString(KEY_TITLE);
+
+        } catch (ParseException e) {
+            Log.v("Experience: title fetching error, ", e.toString());
+            e.printStackTrace();
+        }
+        return title;
     }
 
     public void setTitle(String title) {
