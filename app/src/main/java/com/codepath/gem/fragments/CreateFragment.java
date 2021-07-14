@@ -86,6 +86,7 @@ public class CreateFragment extends Fragment {
         ivImageOne = view.findViewById(R.id.ivImageOne);
         ivImageTwo = view.findViewById(R.id.ivImageTwo);
         btnCreate = view.findViewById(R.id.btnCreate);
+        filesSelected = new ArrayList<ParseFile>();
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +106,10 @@ public class CreateFragment extends Fragment {
                 String description = etDescription.getText().toString();
                 if (title.isEmpty()) {
                     Toast.makeText(getContext(), "Description cannot be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (filesSelected.size() == 0) {
+                    Toast.makeText(getContext(), "Please add at least one image", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -147,7 +152,6 @@ public class CreateFragment extends Fragment {
                 ClipData mClipData = data.getClipData();
                 ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
                 mBitmapsSelected = new ArrayList<Bitmap>();
-                filesSelected = new ArrayList<ParseFile>();
                 for (int i = 0; i < mClipData.getItemCount(); i++) {
                     ClipData.Item item = mClipData.getItemAt(i);
                     Uri uri = item.getUri();
@@ -180,8 +184,12 @@ public class CreateFragment extends Fragment {
         Experience experience = new Experience();
         experience.setTitle(title);
         experience.setDescription(description);
-        experience.setImageOne((ParseFile) filesSelected.get(0));
-        experience.setImageTwo((ParseFile) filesSelected.get(1));
+        if (filesSelected.size() == 2) {
+            experience.setImageOne((ParseFile) filesSelected.get(0));
+            experience.setImageTwo((ParseFile) filesSelected.get(1));
+        } else if (filesSelected.size() == 1) {
+            experience.setImageOne((ParseFile) filesSelected.get(0));
+        }
         experience.setHost(currentUser);
         experience.saveInBackground(new SaveCallback() {
             @Override
