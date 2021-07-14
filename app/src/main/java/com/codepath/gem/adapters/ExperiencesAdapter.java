@@ -67,4 +67,16 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
     public int getItemCount() {
         return experienceList.size();
     }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        experienceList.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Experience> list) {
+        experienceList.addAll(list);
+        notifyDataSetChanged();
+    }
 }
