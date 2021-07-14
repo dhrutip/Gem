@@ -1,9 +1,12 @@
 package com.codepath.gem.fragments;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -32,7 +35,10 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -40,11 +46,13 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
+ * @source https://guides.codepath.org/android/Accessing-the-Camera-and-Stored-Media
  */
 public class CreateFragment extends Fragment {
 
     public static final String TAG = "CreateFragment";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    public final static int PICK_PHOTO_CODE = 1046;
     private EditText etTitle;
     private EditText etDescription;
     private ImageButton btnCaptureImage;
@@ -52,8 +60,11 @@ public class CreateFragment extends Fragment {
     private ImageView ivImageTwo;
     private Button btnCreate;
     private File photoFile;
+    private File photoFile2;
     public String photoFileName = "photo.jpg";
-
+    public String photoFileName2 = "photo.jpg";
+    List mBitmapsSelected;
+    List filesSelected;
 
     public CreateFragment() {
         // Required empty public constructor
@@ -79,7 +90,7 @@ public class CreateFragment extends Fragment {
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCamera();
+                onSelectImages();
             }
         });
 
@@ -97,39 +108,101 @@ public class CreateFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                saveExperience(title, description, currentUser, photoFile);
+                saveExperience(title, description, currentUser);
             }
         });
     }
 
-    private void launchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName); // reference for future access
+    public void onSelectImages() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PHOTO_CODE);
+    }
 
-        // wrap File object into a content provider
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // start the image capture intent to take photo
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    public Bitmap loadFromUri(Uri photoUri) {
+        Bitmap image = null;
+        try {
+            // check version of Android on device
+            if(Build.VERSION.SDK_INT > 27){
+                // on newer versions of Android, use the new decodeBitmap method
+                ImageDecoder.Source source = ImageDecoder.createSource(getContext().getContentResolver(), photoUri);
+                image = ImageDecoder.decodeBitmap(source);
+            } else {
+                // support older versions of Android by using getBitmap
+                image = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), photoUri);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return image;
     }
 
     // invoked when child application returns to parent application
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                ivImageOne.setImageBitmap(takenImage); // load image onto preview
-            } else { // Result was a failure
-                Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+        if ((data != null) && requestCode == PICK_PHOTO_CODE) {
+            if (data.getClipData() != null) {
+                ClipData mClipData = data.getClipData();
+                ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                mBitmapsSelected = new ArrayList<Bitmap>();
+                filesSelected = new ArrayList<ParseFile>();
+                for (int i = 0; i < mClipData.getItemCount(); i++) {
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    Uri uri = item.getUri();
+                    mArrayUri.add(uri);
+                    Bitmap bitmap = loadFromUri(uri);
+                    mBitmapsSelected.add(bitmap);
+                    filesSelected.add(convertBitmapToParseFile(bitmap));
+                }
+            }
+            switch (mBitmapsSelected.size()) {
+                case 2:
+                    ivImageTwo.setImageBitmap((Bitmap) mBitmapsSelected.get(1));
+                case 1:
+                    ivImageOne.setImageBitmap((Bitmap) mBitmapsSelected.get(0));
+                case 0:
+                    break;
             }
         }
     }
+
+    public ParseFile convertBitmapToParseFile(Bitmap imgBitmap) {
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        imgBitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        byte[] imageByte = byteArrayOutputStream.toByteArray();
+        ParseFile parseFile = new ParseFile("image_file.png",imageByte);
+        return parseFile;
+    }
+
+    private void saveExperience(String title, String description, ParseUser currentUser) {
+        Experience experience = new Experience();
+        experience.setTitle(title);
+        experience.setDescription(description);
+        experience.setImageOne((ParseFile) filesSelected.get(0));
+        experience.setImageTwo((ParseFile) filesSelected.get(1));
+        experience.setHost(currentUser);
+        experience.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "error while saving", e);
+                    Toast.makeText(getContext(), "error while saving", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "post save works!");
+                etTitle.setText("");
+                etDescription.setText("");
+                ivImageOne.setImageResource(R.drawable.photo_blank);
+                ivImageTwo.setImageResource(R.drawable.photo_blank);
+            }
+        });
+    }
+
+    /*
+    the following code was written to launch the camera upon wanting to take a photo.
+    it's currently not being used.
+     */
 
     // gets the uniform resource identifier
     private File getPhotoFileUri(String photoFileName) {
@@ -142,25 +215,21 @@ public class CreateFragment extends Fragment {
         return file;
     }
 
+    private void launchCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        photoFile = getPhotoFileUri(photoFileName); // reference for future access
+        photoFile2 = getPhotoFileUri(photoFileName2); // reference for future access
 
-    private void saveExperience(String title, String description, ParseUser currentUser, File photoFile) {
-        Experience experience = new Experience();
-        experience.setTitle(title);
-        experience.setDescription(description);
-        experience.setImageOne(new ParseFile(photoFile));
-        experience.setHost(currentUser);
-        experience.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error while saving", e);
-                    Toast.makeText(getContext(), "error while saving", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "post save works!");
-                etTitle.setText("");
-                etDescription.setText("");
-                ivImageOne.setImageResource(0);
-            }
-        });
+        // wrap File object into a content provider
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+        Uri fileProvider2 = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile2);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider2);
+
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            // start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
     }
 }

@@ -33,19 +33,19 @@
 
     <ImageView
         android:id="@+id/ivImageOne"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_below="@id/etDescription"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@drawable/photo_blank" />
 
     <ImageView
         android:id="@+id/ivImageTwo"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_below="@id/etDescription"
         android:layout_toEndOf="@id/ivImageOne"
         android:layout_marginStart="16dp"
-        tools:srcCompat="@tools:sample/avatars"/>
+        android:src="@drawable/photo_blank"/>
 
     <Button
         android:id="@+id/btnCreate"
