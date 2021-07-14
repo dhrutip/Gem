@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.gem.R;
+import com.codepath.gem.adapters.ExperiencesAdapter;
 import com.codepath.gem.models.Experience;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -19,11 +22,15 @@ import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     public static final String TAG = "HomeFragment";
+    protected RecyclerView rvExperiences;
+    protected List<Experience> allExperiences;
+    protected ExperiencesAdapter experiencesAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -39,6 +46,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        rvExperiences = view.findViewById(R.id.rvExperiences);
+        allExperiences = new ArrayList<>();
+        experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences);
+
+        rvExperiences.setAdapter(experiencesAdapter);
+        rvExperiences.setLayoutManager(new LinearLayoutManager(getContext()));
+        queryExperiences();
     }
 
     protected void queryExperiences() {
@@ -57,8 +71,8 @@ public class HomeFragment extends Fragment {
                 for (Experience experience : experiencesList) {
                     Log.i(TAG, "Experience: " + experience.getDescription() + ", username: " + experience.getHost().getUsername());
                 }
-//                allExperiences.addAll(experiencesList);
-//                adapter.notifyDataSetChanged();
+                allExperiences.addAll(experiencesList);
+                experiencesAdapter.notifyDataSetChanged();
             }
         });
     }
