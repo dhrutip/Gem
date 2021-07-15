@@ -95,6 +95,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExperienceDetailsActivity.this, MapsActivity.class);
+                i.putExtra(Experience.class.getSimpleName(), Parcels.wrap(experience));
                 startActivity(i);
             }
         });
