@@ -2,12 +2,17 @@ package com.codepath.gem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.gem.models.Commitment;
@@ -25,7 +30,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     TextView tvDetailsDescription;
     ImageView ivDetailsImageOne;
     ImageView ivDetailsImageTwo;
-    Button btnDetailsAddInterest;
+    ImageButton btnDetailsAddInterest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +56,11 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                     .into(ivDetailsImageTwo);
         }
 
-        btnDetailsAddInterest.setOnClickListener(new View.OnClickListener() {
+        btnDetailsAddInterest.setOnTouchListener(new OnDoubleTapListener(this) {
             @Override
-            public void onClick(View v) {
+            public void onDoubleTap(MotionEvent e) {
                 createCommitment();
+                btnDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
             }
         });
     }

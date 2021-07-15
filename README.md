@@ -26,15 +26,15 @@ To view my project plan and stay updated on my progress, check out this [Notion]
 
 **Required Must-have Stories**
 
-- [ ] Users can log in/log out of the app
+- [x] Users can log in/log out of the app
 - [x] Users can create a new account
-- [ ] Locals can post new experiences
+- [x] Locals can post new experiences
   - [ ] Each post allows for a title, description, location, contact info, and images
-- [ ] Users can scroll through experiences (feed)
-  - [ ] Users can view a details page about each experience
+- [x] Users can scroll through experiences (feed)
+  - [x] Users can view a details page about each experience
   - [ ] Users can get directions to the location of an experience
 - [ ] Users can favorite experiences to be placed on an interest list (double-tap)
-- [ ] Users can view a 'my commitments' page with experiences they have favorited
+- [x] Users can view a 'my commitments' page with experiences they have favorited
 
 **Optional Nice-to-have Stories**
 
@@ -111,7 +111,7 @@ Optional:
 | passions     | Array  | list of all selected passions (optional)    |
 
 #### Commitments
-join table for users - experiences
+join table for users - experiences (to keep track of commitments)
 | Property     | Type                  | Description                  |
 |--------------|-----------------------|------------------------------|
 | user         | pointer to User       | unique id for the user       |

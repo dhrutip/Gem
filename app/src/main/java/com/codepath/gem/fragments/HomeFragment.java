@@ -1,5 +1,6 @@
 package com.codepath.gem.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,11 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.gem.ExperienceDetailsActivity;
+import com.codepath.gem.MainActivity;
+import com.codepath.gem.OnDoubleTapListener;
 import com.codepath.gem.R;
 import com.codepath.gem.adapters.ExperiencesAdapter;
 import com.codepath.gem.models.Experience;
