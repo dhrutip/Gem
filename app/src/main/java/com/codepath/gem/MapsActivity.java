@@ -32,7 +32,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     public static final String TAG = "MapsActivity";
     Experience experience;
@@ -69,12 +68,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i(TAG, "size: " + experiences.size());
                     for(int i = 0; i < experiences.size(); i++) {
                         LatLng experienceLocation = new LatLng(experiences.get(i).getParseGeoPoint("location").getLatitude(), experiences.get(i).getParseGeoPoint("location").getLongitude());
-                        googleMap.addMarker(new MarkerOptions().position(experienceLocation).title(experiences.get(i).getString("title")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(experienceLocation)
+                                .title(experiences.get(i).getString("title"))
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(experienceLocation));
                     }
                 } else {
                     // handle the error
-                    Log.d("experience", "Error: " + e.getMessage());
+                    Log.d(TAG, "Error: " + e.getMessage());
                 }
             }
         });
