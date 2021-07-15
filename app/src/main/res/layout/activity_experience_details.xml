@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    tools:context=".ExperienceDetailsActivity">
+
+    <TextView
+        android:id="@+id/tvDetailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Title goes here"
+        android:textSize="32dp" />
+
+    <TextView
+        android:id="@+id/tvDetailsDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDetailsTitle"
+        android:text="Experience description goes here"/>
+
+    <ImageView
+        android:id="@+id/ivDetailsImageOne"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/tvDetailsDescription"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/photo_blank"/>
+
+    <ImageView
+        android:id="@+id/ivDetailsImageTwo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/tvDetailsDescription"
+        android:layout_toEndOf="@id/ivDetailsImageOne"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/photo_blank"/>
+
+    <Button
+        android:id="@+id/btnDetailsConnectHost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivDetailsImageOne"
+        android:layout_centerHorizontal="true"
+        android:text="connect with host!"/>
+
+    <Button
+        android:id="@+id/btnDetailsAddInterest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnDetailsConnectHost"
+        android:layout_centerHorizontal="true"
+        android:text="i'm interested!"/>
+
+</RelativeLayout>

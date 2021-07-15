@@ -1,16 +1,16 @@
 package com.codepath.gem.models;
 
 import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
+import org.parceler.Parcel;
 import java.util.Date;
 
 @ParseClassName("Experience") // entity on parse dashboard
+@Parcel(analyze = Experience.class)
 public class Experience extends ParseObject {
     public static final String KEY_TITLE = "title";
     public static final String KEY_DESCRIPTION = "description";

@@ -21,23 +21,28 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
 
     private Context context;
     private List<Experience> experienceList;
+    private OnExperienceListener onExperienceListener;
 
-    public ExperiencesAdapter(Context context, List<Experience> experienceList) {
+    public ExperiencesAdapter(Context context, List<Experience> experienceList, OnExperienceListener onExperienceListener) {
         this.context = context;
         this.experienceList = experienceList;
+        this.onExperienceListener = onExperienceListener;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView ivCoverPic;
         private TextView tvTitle;
         private TextView tvDescription;
+        private OnExperienceListener onExperienceListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnExperienceListener onExperienceListener) {
             super(itemView);
             ivCoverPic = itemView.findViewById(R.id.ivCoverPic);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            this.onExperienceListener = onExperienceListener;
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Experience experience) {
@@ -48,13 +53,18 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
                 Glide.with(context).load(coverPic.getUrl()).into(ivCoverPic);
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            onExperienceListener.onExperienceClicked(getAdapterPosition());
+        }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_experience, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, onExperienceListener);
     }
 
     @Override
@@ -78,5 +88,9 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
     public void addAll(List<Experience> list) {
         experienceList.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public interface OnExperienceListener {
+        void onExperienceClicked(int position);
     }
 }

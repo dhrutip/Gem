@@ -1,5 +1,6 @@
 package com.codepath.gem.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.gem.ExperienceDetailsActivity;
 import com.codepath.gem.R;
 import com.codepath.gem.adapters.ExperiencesAdapter;
 import com.codepath.gem.models.Commitment;
@@ -21,6 +23,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +32,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class CommitmentsFragment extends Fragment {
+public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.OnExperienceListener {
 
     public static final String TAG = "CommitmentsFragment";
     protected RecyclerView rvExperiences;
@@ -52,7 +56,7 @@ public class CommitmentsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvExperiences = view.findViewById(R.id.rvExperiences);
         allExperiences = new ArrayList<>();
-        experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences);
+        experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
 
         rvExperiences.setAdapter(experiencesAdapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -100,5 +104,13 @@ public class CommitmentsFragment extends Fragment {
                 experiencesAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onExperienceClicked(int position) {
+        Experience clickedExperience = allExperiences.get(position);
+        Intent intent = new Intent(getContext(), ExperienceDetailsActivity.class);
+        intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(clickedExperience));
+        startActivity(intent);
     }
 }
