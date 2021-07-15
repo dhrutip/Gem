@@ -48,11 +48,19 @@
         android:layout_centerHorizontal="true"
         android:text="connect with host!" />
 
+    <Button
+        android:id="@+id/btnDetailsLocate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnDetailsConnectHost"
+        android:layout_centerHorizontal="true"
+        android:text="locate" />
+
     <ImageButton
         android:id="@+id/btnDetailsAddInterest"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@id/btnDetailsConnectHost"
+        android:layout_below="@id/btnDetailsLocate"
         android:layout_centerHorizontal="true"
         android:background="#00FFFFFF"
         android:src="@drawable/favorite_border" />

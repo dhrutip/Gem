@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.codepath.gem"
-        minSdkVersion 28
+        minSdkVersion 27
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -25,6 +25,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -50,4 +53,6 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0" // card view
     implementation 'org.parceler:parceler-api:1.1.12' // parcel
     annotationProcessor 'org.parceler:parceler:1.1.12' // parcel
+    implementation 'com.google.android.gms:play-services-location:18.0.0' // location
+    implementation 'com.google.android.gms:play-services-maps:17.0.1' // maps
 }

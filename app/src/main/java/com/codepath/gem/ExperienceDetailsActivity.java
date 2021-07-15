@@ -3,10 +3,13 @@ package com.codepath.gem;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +37,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     ImageView ivDetailsImageOne;
     ImageView ivDetailsImageTwo;
     ImageButton btnDetailsAddInterest;
+    Button btnDetailsLocate;
     boolean commitmentExists;
     Context context;
 
@@ -47,6 +51,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         ivDetailsImageOne = findViewById(R.id.ivDetailsImageOne);
         ivDetailsImageTwo = findViewById(R.id.ivDetailsImageTwo);
         btnDetailsAddInterest = findViewById(R.id.btnDetailsAddInterest);
+        btnDetailsLocate = findViewById(R.id.btnDetailsLocate);
         context = this;
 
         experience = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
@@ -85,6 +90,15 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                 }
             }
         }, 400);
+
+        btnDetailsLocate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ExperienceDetailsActivity.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     private void checkCommitment() {
