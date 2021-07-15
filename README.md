@@ -10,7 +10,7 @@
 ### Description
 A travel app to discover hidden gems--destinations, eats, and experiences unique to locations, but often not found on your typical top 10 attractions lists. Curated by locals, Gem is a way to travel authentically--seeing, living, and embracing the culture of a destination as if you were part of the community itself.
 
-To view my project plan and stay updated on my progress, check out this [Notion](https://www.notion.so/gem-4475f976cb8e46f5bfdcfed954a1472b)!
+To view my (constantly updating) project plan and follow my progress, check out this [Notion](https://www.notion.so/gem-4475f976cb8e46f5bfdcfed954a1472b)!
 
 ### App Evaluation
 - **Category:** Travel
@@ -28,12 +28,12 @@ To view my project plan and stay updated on my progress, check out this [Notion]
 
 - [x] Users can log in/log out of the app
 - [x] Users can create a new account
-- [x] Locals can post new experiences
+- [x] Users can post new experiences
   - [ ] Each post allows for a title, description, location, contact info, and images
 - [x] Users can scroll through experiences (feed)
   - [x] Users can view a details page about each experience
   - [ ] Users can get directions to the location of an experience
-- [ ] Users can favorite experiences to be placed on an interest list (double-tap)
+- [x] Users can favorite experiences to be placed on an interest list (double-tap)
 - [x] Users can view a 'my commitments' page with experiences they have favorited
 
 **Optional Nice-to-have Stories**

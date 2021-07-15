@@ -6,19 +6,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.codepath.gem.functions.OnDoubleTapListener;
+import com.codepath.gem.functions.OnSwipeTouchListener;
 import com.codepath.gem.models.Commitment;
 import com.codepath.gem.models.Experience;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -26,9 +24,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExperienceDetailsActivity extends AppCompatActivity {
 
@@ -61,13 +56,17 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(experience.getImageOne().getUrl())
                     .into(ivDetailsImageOne);
+        } else {
+            ivDetailsImageOne.setImageResource(0);
         }
         if (experience.getImageTwo() != null) {
             Glide.with(this)
                     .load(experience.getImageTwo().getUrl())
                     .into(ivDetailsImageTwo);
+        } else {
+            ivDetailsImageOne.setImageResource(0);
         }
-        // fill heart icon if already favorited, otherwise allow user to add a commitment
+        // fill heart icon if already favorited, otherwise allow user to add a commitment via double tap
         checkCommitment();
         Handler handler = new Handler(); // required for checkCommitment() to finish first
         handler.postDelayed(new Runnable() {

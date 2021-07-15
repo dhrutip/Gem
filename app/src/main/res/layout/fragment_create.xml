@@ -29,6 +29,7 @@
         android:layout_height="50dp"
         android:layout_alignEnd="@id/etDescription"
         android:layout_alignParentRight="true"
+        android:background="#00FFFFFF"
         android:src="@drawable/add_photo" />
 
     <ImageView

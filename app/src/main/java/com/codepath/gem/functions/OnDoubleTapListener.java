@@ -1,4 +1,4 @@
-package com.codepath.gem;
+package com.codepath.gem.functions;
 
 import android.content.Context;
 import android.view.GestureDetector;
