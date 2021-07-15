@@ -84,7 +84,7 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
         query.include(Commitment.KEY_USER);
         query.whereEqualTo(Commitment.KEY_USER, ParseUser.getCurrentUser());
         query.setLimit(20);
-        query.addAscendingOrder(Commitment.KEY_CREATED_AT);
+        query.addDescendingOrder(Commitment.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Commitment>() {
             @Override
             public void done(List<Commitment> commitmentsList, ParseException e) {
