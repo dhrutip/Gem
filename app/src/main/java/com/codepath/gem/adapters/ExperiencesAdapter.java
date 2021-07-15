@@ -1,6 +1,7 @@
 package com.codepath.gem.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,14 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.gem.ExperienceDetailsActivity;
+import com.codepath.gem.OnDoubleTapListener;
 import com.codepath.gem.R;
+import com.codepath.gem.models.Commitment;
 import com.codepath.gem.models.Experience;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.ViewHolder> {
 
+    public static final String TAG = "ExperiencesAdapter";
     private Context context;
     private List<Experience> experienceList;
     private OnExperienceListener onExperienceListener;
@@ -68,7 +74,8 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_experience, parent, false);
-        return new ViewHolder(view, onExperienceListener);
+        final ViewHolder holder = new ViewHolder(view, onExperienceListener);
+        return holder;
     }
 
     @Override
