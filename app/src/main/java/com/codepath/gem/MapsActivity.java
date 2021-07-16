@@ -2,8 +2,12 @@ package com.codepath.gem;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.codepath.gem.databinding.ActivityMapsBinding;
 // Parse Dependencies
@@ -34,6 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     public static final String TAG = "MapsActivity";
     Experience experience;
+    MarkerOptions marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         showExperiencesInMap(mMap);
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            public boolean onMarkerClick(Marker marker) {
+                directionsToMarker();
+                return true;
+            }
+        });
     }
 
     private void showExperiencesInMap(final GoogleMap googleMap){
@@ -67,10 +79,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i(TAG, "size: " + experiences.size());
                     for(int i = 0; i < experiences.size(); i++) {
                         LatLng experienceLocation = new LatLng(experiences.get(i).getParseGeoPoint("location").getLatitude(), experiences.get(i).getParseGeoPoint("location").getLongitude());
-                        googleMap.addMarker(new MarkerOptions()
+                        marker = new MarkerOptions()
                                 .position(experienceLocation)
                                 .title(experiences.get(i).getString("title"))
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                        googleMap.addMarker(marker);
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(experienceLocation));
                     }
                 } else {
@@ -80,5 +93,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         ParseQuery.clearAllCachedResults();
+    }
+
+    private void directionsToMarker() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+        builder.setMessage("Open Google Maps?")
+                .setCancelable(true)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        String latitude = String.valueOf(marker.getPosition().latitude);
+                        String longitude = String.valueOf(marker.getPosition().longitude);
+                        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+
+                        try {
+                            if (mapIntent.resolveActivity(MapsActivity.this.getPackageManager()) != null) {
+                                startActivity(mapIntent);
+                            }
+                        } catch (NullPointerException e){
+                            Log.e(TAG, "onClick: NullPointerException: Couldn't open map." + e.getMessage() );
+                            Toast.makeText(MapsActivity.this, "Couldn't open map", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }
