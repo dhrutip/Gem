@@ -47,7 +47,7 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                Toast.makeText(SetLocationActivity.this, "Long Press", Toast.LENGTH_LONG).show();
+                Toast.makeText(SetLocationActivity.this, "Set Location!", Toast.LENGTH_LONG).show();
                 googleMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title("test")

@@ -56,7 +56,6 @@ import static android.app.Activity.RESULT_OK;
 public class CreateFragment extends Fragment {
 
     public static final String TAG = "CreateFragment";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public final static int PICK_PHOTO_CODE = 1046;
     private EditText etTitle;
     private EditText etDescription;
@@ -65,10 +64,6 @@ public class CreateFragment extends Fragment {
     private ImageView ivImageOne;
     private ImageView ivImageTwo;
     private Button btnCreate;
-    private File photoFile;
-    private File photoFile2;
-    public String photoFileName = "photo.jpg";
-    public String photoFileName2 = "photo.jpg";
     List mBitmapsSelected;
     List filesSelected;
     public static LatLng location;
@@ -231,39 +226,5 @@ public class CreateFragment extends Fragment {
                 btnSetLocation.setColorFilter(null);
             }
         });
-    }
-
-    /*
-    the following code was written to launch the camera upon wanting to take a photo.
-    it's currently not being used.
-     */
-
-    // gets the uniform resource identifier
-    private File getPhotoFileUri(String photoFileName) {
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-        // return the file target for the photo based on filename
-        File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
-        return file;
-    }
-
-    private void launchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName); // reference for future access
-        photoFile2 = getPhotoFileUri(photoFileName2); // reference for future access
-
-        // wrap File object into a content provider
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        Uri fileProvider2 = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile2);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider2);
-
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // start the image capture intent to take photo
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
     }
 }

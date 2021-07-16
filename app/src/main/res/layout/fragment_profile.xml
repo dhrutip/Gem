@@ -14,6 +14,17 @@
         app:srcCompat="@drawable/profilepic_blank"
         android:layout_marginTop="50dp" />
 
+    <ImageButton
+        android:id="@+id/ibUpdateProfilePic"
+        android:layout_width="35dp"
+        android:layout_height="29dp"
+        android:layout_alignRight="@id/ivProfilePic"
+        android:layout_alignBottom="@id/ivProfilePic"
+        android:layout_marginRight="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:background="#00FFFFFF"
+        android:src="@drawable/update_profile_pic" />
+
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
