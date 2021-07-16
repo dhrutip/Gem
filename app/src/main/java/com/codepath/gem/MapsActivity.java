@@ -6,6 +6,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.codepath.gem.models.Experience;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,10 +20,8 @@ import com.codepath.gem.databinding.ActivityMapsBinding;
 // Parse Dependencies
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 // Java dependencies
 import org.parceler.Parcels;
 
@@ -55,13 +54,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        showExperiencesInMap(googleMap);
+        showExperiencesInMap(mMap);
     }
 
     private void showExperiencesInMap(final GoogleMap googleMap){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Experience");
         query.whereExists(Experience.KEY_LOCATION);
-        query.whereEqualTo(Experience.KEY_TITLE, experience.getTitle());
+        query.whereEqualTo(Experience.KEY_TITLE, experience.getTitle()); // TODO: assumes unique title, update to stronger filter
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override  public void done(List<ParseObject> experiences, ParseException e) {
                 if (e == null) {

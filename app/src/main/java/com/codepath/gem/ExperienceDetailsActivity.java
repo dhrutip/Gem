@@ -13,11 +13,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.gem.functions.OnDoubleTapListener;
-import com.codepath.gem.functions.OnSwipeTouchListener;
 import com.codepath.gem.models.Commitment;
 import com.codepath.gem.models.Experience;
 import com.parse.GetCallback;

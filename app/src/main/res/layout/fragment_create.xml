@@ -48,6 +48,15 @@
         android:layout_marginStart="16dp"
         android:src="@drawable/photo_blank"/>
 
+    <ImageButton
+        android:id="@+id/btnSetLocation"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="#00FFFFFF"
+        android:src="@drawable/add_location" />
+
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="wrap_content"

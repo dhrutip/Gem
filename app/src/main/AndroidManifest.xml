@@ -44,8 +44,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".SetLocationActivity"
+            android:label="@string/title_activity_set_location"></activity>
+        <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
 
         <meta-data
             android:name="com.google.android.gms.version"

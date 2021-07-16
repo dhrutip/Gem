@@ -1,9 +1,12 @@
 package com.codepath.gem.models;
 
 import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import org.parceler.Parcel;
@@ -74,6 +77,11 @@ public class Experience extends ParseObject {
 
     public void setHost(ParseUser user) {
         put(KEY_HOST, user);
+    }
+
+    public void setLocation(LatLng latLng) {
+        ParseGeoPoint location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
+        put(KEY_LOCATION, location);
     }
 
     public static String getRelativeTimeAgo(Date date) {

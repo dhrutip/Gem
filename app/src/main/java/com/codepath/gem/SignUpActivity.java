@@ -30,7 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText etPasswordTwo;
     private Button btnCreateAccount;
     LocationManager locationManager;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

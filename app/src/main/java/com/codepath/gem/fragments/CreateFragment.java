@@ -27,13 +27,17 @@ import android.widget.Toast;
 
 import com.codepath.gem.MainActivity;
 import com.codepath.gem.R;
+import com.codepath.gem.SetLocationActivity;
 import com.codepath.gem.models.Experience;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -56,6 +60,7 @@ public class CreateFragment extends Fragment {
     private EditText etTitle;
     private EditText etDescription;
     private ImageButton btnCaptureImage;
+    private ImageButton btnSetLocation;
     private ImageView ivImageOne;
     private ImageView ivImageTwo;
     private Button btnCreate;
@@ -65,6 +70,7 @@ public class CreateFragment extends Fragment {
     public String photoFileName2 = "photo.jpg";
     List mBitmapsSelected;
     List filesSelected;
+    public static LatLng location;
 
     public CreateFragment() {
         // Required empty public constructor
@@ -83,15 +89,25 @@ public class CreateFragment extends Fragment {
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
+        btnSetLocation = view.findViewById(R.id.btnSetLocation);
         ivImageOne = view.findViewById(R.id.ivImageOne);
         ivImageTwo = view.findViewById(R.id.ivImageTwo);
         btnCreate = view.findViewById(R.id.btnCreate);
         filesSelected = new ArrayList<ParseFile>();
+        location = null;
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSelectImages();
+            }
+        });
+
+        btnSetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SetLocationActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -110,6 +126,10 @@ public class CreateFragment extends Fragment {
                 }
                 if (filesSelected.size() == 0) {
                     Toast.makeText(getContext(), "Please add at least one image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (location == null) {
+                    Toast.makeText(getContext(), "Please select a location", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -190,6 +210,7 @@ public class CreateFragment extends Fragment {
         } else if (filesSelected.size() == 1) {
             experience.setImageOne((ParseFile) filesSelected.get(0));
         }
+        experience.setLocation(location);
         experience.setHost(currentUser);
         experience.saveInBackground(new SaveCallback() {
             @Override
