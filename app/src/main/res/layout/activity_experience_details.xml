@@ -29,6 +29,7 @@
         android:layout_height="150dp"
         android:layout_below="@id/tvDetailsDescription"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="38dp"
         android:src="@drawable/photo_blank" />
 
     <ImageView
@@ -64,5 +65,5 @@
         android:layout_centerHorizontal="true"
         android:background="#00FFFFFF"
         android:src="@drawable/favorite_border" />
-
+    
 </RelativeLayout>
