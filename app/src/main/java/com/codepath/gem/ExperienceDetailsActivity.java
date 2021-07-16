@@ -60,14 +60,14 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                     .load(experience.getImageOne().getUrl())
                     .into(ivDetailsImageOne);
         } else {
-            ivDetailsImageOne.setImageResource(0);
+            ivDetailsImageOne.setVisibility(View.INVISIBLE);
         }
         if (experience.getImageTwo() != null) {
             Glide.with(this)
                     .load(experience.getImageTwo().getUrl())
                     .into(ivDetailsImageTwo);
         } else {
-            ivDetailsImageOne.setImageResource(0);
+            ivDetailsImageTwo.setVisibility(View.INVISIBLE);
         }
         // fill heart icon if already favorited, otherwise allow user to add a commitment via double tap
         checkCommitment();

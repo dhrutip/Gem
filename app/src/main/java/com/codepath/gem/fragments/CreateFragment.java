@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -100,6 +101,7 @@ public class CreateFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onSelectImages();
+                btnCaptureImage.setColorFilter(Color.BLACK);
             }
         });
 
@@ -108,6 +110,7 @@ public class CreateFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SetLocationActivity.class);
                 startActivity(intent);
+                btnSetLocation.setColorFilter(Color.BLACK);
             }
         });
 
@@ -224,6 +227,8 @@ public class CreateFragment extends Fragment {
                 etDescription.setText("");
                 ivImageOne.setImageResource(R.drawable.photo_blank);
                 ivImageTwo.setImageResource(R.drawable.photo_blank);
+                btnCaptureImage.setColorFilter(null);
+                btnSetLocation.setColorFilter(null);
             }
         });
     }
