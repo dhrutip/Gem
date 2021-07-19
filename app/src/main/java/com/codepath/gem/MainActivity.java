@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
             onLogoutButton();
             return true;
         }
+        if (item.getItemId() == R.id.itemSearch) {
+            Toast.makeText(MainActivity.this, "search button clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
