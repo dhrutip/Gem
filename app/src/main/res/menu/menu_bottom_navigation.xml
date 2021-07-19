@@ -13,11 +13,6 @@
         android:title="Create"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_commitments"
-        android:icon="@drawable/commitments"
-        android:title="Commitments"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/profile"
         android:title="Profile"

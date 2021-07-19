@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.codepath.gem.fragments.CommitmentsFragment;
 import com.codepath.gem.fragments.CreateFragment;
 import com.codepath.gem.fragments.HomeFragment;
 import com.codepath.gem.fragments.ProfileFragment;
@@ -19,8 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_create:
                         fragment = new CreateFragment();
-                        break;
-                    case R.id.action_commitments:
-                        fragment = new CommitmentsFragment();
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
