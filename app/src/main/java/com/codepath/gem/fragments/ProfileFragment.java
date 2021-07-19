@@ -63,6 +63,7 @@ public class ProfileFragment extends Fragment {
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public static final String TAG = "ProfileFragment";
     TextView tvUsername;
+    TextView tvBio;
     ImageView ivProfilePic;
     ImageButton ibUpdateProfilePic;
     private File photoFile;
@@ -82,9 +83,10 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvUsername = view.findViewById(R.id.tvUsername);
+        tvBio = view.findViewById(R.id.tvBio);
         ivProfilePic = view.findViewById(R.id.ivProfilePic);
         ibUpdateProfilePic = view.findViewById(R.id.ibUpdateProfilePic);
         tabLayout = view.findViewById(R.id.sliding_tabs);
@@ -92,6 +94,7 @@ public class ProfileFragment extends Fragment {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         tvUsername.setText(currentUser.getUsername());
+        tvBio.setText(currentUser.getString("bio"));
         ParseFile profilePic = currentUser.getParseFile("profilePic");
         if (profilePic != null) {
             Glide.with(view.getContext())

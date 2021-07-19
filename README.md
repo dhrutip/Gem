@@ -32,14 +32,15 @@ To view my (constantly updating) project plan and follow my progress, check out 
   - [ ] Each post allows for a title, description, location, contact info, and images
 - [x] Users can scroll through experiences (feed)
   - [x] Users can view a details page about each experience
-  - [ ] Users can get directions to the location of an experience
-- [x] Users can favorite experiences to be placed on an interest list (double-tap)
+  - [x] Users can get directions to the location of an experience
+- [x] Users can favorite experiences to add to their commitments (double-tap)
 - [x] Users can view a 'my commitments' page with experiences they have favorited
 
 **Optional Nice-to-have Stories**
 
 - [ ] Users can filter experiences based on category
-- [ ] Users can view profile page
+- [x] Users can view profile page
+   - [x] profile page displays a 'my commitments' tab and a 'my listings' tab
 - [ ] Users can leave reviews on experiences
 - [ ] Users can un-favorite posts
 - [ ] Users can delete their posts
@@ -94,10 +95,10 @@ Optional:
 | Property     | Type            | Description                                 |
 |--------------|-----------------|---------------------------------------------|
 | objectID     | String          | unique id for the user post (default field) |
-| author       | pointer to User | post author                                 |
+| host         | pointer to User | experience host                             |
 | createdAt    | DateTime        | date when post is created (default field)   |
 | title        | String          | title of event                              |
-| image        | File            | image that user posts                       |
+| image (x2)   | File            | image that user posts                       |
 | description  | String          | event description by the author             |
 | location     | String          | location of event by author                 |
 
@@ -108,7 +109,7 @@ Optional:
 | username     | String | username for user, set at account creation  |
 | password     | String | password for user, set at account creation  |
 | profileImage | File   | profile photo for user                      |
-| passions     | Array  | list of all selected passions (optional)    |
+| bio          | String | short bio (description) for user            |
 
 #### Commitments
 join table for users - experiences (to keep track of commitments)
