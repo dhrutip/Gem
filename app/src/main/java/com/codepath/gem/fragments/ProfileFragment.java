@@ -22,6 +22,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -31,6 +33,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.gem.ExperienceDetailsActivity;
+import com.codepath.gem.LoginActivity;
+import com.codepath.gem.MainActivity;
 import com.codepath.gem.R;
 import com.codepath.gem.SetLocationActivity;
 import com.codepath.gem.adapters.ExperiencesAdapter;
@@ -39,6 +43,7 @@ import com.codepath.gem.models.Commitment;
 import com.codepath.gem.models.Experience;
 import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -80,11 +85,18 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_profile, menu);
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
         tvUsername = view.findViewById(R.id.tvUsername);
         tvBio = view.findViewById(R.id.tvBio);
         ivProfilePic = view.findViewById(R.id.ivProfilePic);
