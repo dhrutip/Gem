@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.codepath.gem.MainActivity;
 import com.codepath.gem.fragments.CommitmentsFragment;
+import com.codepath.gem.fragments.ListingsFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,7 @@ public class ProfileTabAdapter extends SmartFragmentStatePagerAdapter {
             case 0:
                 return new CommitmentsFragment();
             case 1:
-                return new CommitmentsFragment();
+                return new ListingsFragment();
             default:
                 return null;
         }
