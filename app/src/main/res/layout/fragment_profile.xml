@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="12dp"
         app:srcCompat="@drawable/profilepic_blank"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="12dp" />
 
     <ImageButton
         android:id="@+id/ibUpdateProfilePic"
@@ -20,8 +20,8 @@
         android:layout_height="29dp"
         android:layout_alignRight="@id/ivProfilePic"
         android:layout_alignBottom="@id/ivProfilePic"
-        android:layout_marginRight="-5dp"
-        android:layout_marginBottom="-5dp"
+        android:layout_marginRight="-10dp"
+        android:layout_marginBottom="-8dp"
         android:background="#00FFFFFF"
         android:src="@drawable/update_profile_pic" />
 
@@ -29,10 +29,47 @@
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ivProfilePic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/ivProfilePic"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
         android:text="Username"
         android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/tvBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/ivProfilePic"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="16dp"
+        android:text="This is a bio!"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/tvCommitmentsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/ibUpdateProfilePic"
+        android:text="My Commitments"
+        android:textSize="30dp"/>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvCommitmentsTitle">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvExperiences"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:padding="8dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
