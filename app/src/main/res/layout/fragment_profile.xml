@@ -45,31 +45,20 @@
         android:text="This is a bio!"
         android:textSize="15dp"/>
 
-    <TextView
-        android:id="@+id/tvCommitmentsTitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
         android:layout_below="@id/ibUpdateProfilePic"
-        android:text="My Commitments"
-        android:textSize="30dp"/>
+        android:layout_marginTop="16dp"
+        app:tabMode="fixed" />
 
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tvCommitmentsTitle">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvExperiences"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:padding="8dp" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        android:layout_weight="1"
+        android:layout_below="@id/sliding_tabs"
+        android:background="@android:color/white" />
 
 </RelativeLayout>
