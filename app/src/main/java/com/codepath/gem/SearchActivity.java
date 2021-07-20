@@ -20,6 +20,8 @@ import java.util.Arrays;
 public class SearchActivity extends AppCompatActivity {
 
     public static final String TAG = "SearchActivity";
+    String placeName;
+    Double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +44,15 @@ public class SearchActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                // TODO: Get info about the selected place.
-                Toast.makeText(SearchActivity.this, "Place successfully selected!", Toast.LENGTH_SHORT).show();
+                placeName = place.getName();
+                latitude = place.getLatLng().latitude;
+                longitude = place.getLatLng().longitude;
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
 
             @Override
             public void onError(@NonNull Status status) {
-                // TODO: Handle the error.
-                Toast.makeText(SearchActivity.this, "Error with selecting place", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "An error occurred: " + status);
+                Log.d(TAG, "An error occurred: " + status);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.codepath.gem;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.AlertDialog;
@@ -10,6 +11,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.codepath.gem.models.Experience;
@@ -28,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 // Java dependencies
+import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.List;
@@ -41,10 +45,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Experience experience;
     MarkerOptions marker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
