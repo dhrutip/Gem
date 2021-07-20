@@ -22,7 +22,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class ListingsFragment extends HomeFragment {
+public class ListingsFragment extends CommitmentsFragment {
 
     public ListingsFragment() {
         // Required empty public constructor

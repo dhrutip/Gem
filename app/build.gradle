@@ -55,4 +55,5 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.12' // parcel
     implementation 'com.google.android.gms:play-services-location:18.0.0' // location
     implementation 'com.google.android.gms:play-services-maps:17.0.1' // maps
+    implementation 'com.google.android.libraries.places:places:2.4.0' // places
 }

@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == R.id.itemSearch) {
-            Toast.makeText(MainActivity.this, "search button clicked", Toast.LENGTH_SHORT).show();
+            Intent goToSearch = new Intent(this, SearchActivity.class);
+            startActivity(goToSearch);
             return true;
         }
         return super.onOptionsItemSelected(item);
