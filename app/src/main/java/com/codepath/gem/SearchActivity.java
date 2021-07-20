@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -22,11 +26,21 @@ public class SearchActivity extends AppCompatActivity {
     public static final String TAG = "SearchActivity";
     String placeName;
     Double latitude, longitude;
+    RadioGroup rgSearchRadius;
+    RadioButton rb10miles, rb25miles, rb50miles, rb100miles;
+    public int rbDistance;
+    Button btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        rgSearchRadius = findViewById(R.id.rgSearchRadius);
+        rb10miles = findViewById(R.id.rb10miles);
+        rb25miles = findViewById(R.id.rb25miles);
+        rb50miles = findViewById(R.id.rb50miles);
+        rb100miles = findViewById(R.id.rb100miles);
+        btnSearch = findViewById(R.id.btnSearch);
 
         // Initialize the SDK
         Places.initialize(SearchActivity.this, getResources().getString(R.string.google_maps_key));
@@ -55,5 +69,28 @@ public class SearchActivity extends AppCompatActivity {
                 Log.d(TAG, "An error occurred: " + status);
             }
         });
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbDistance = getRbDistance();
+                Log.i(TAG, "RbDistance: " + String.valueOf(rbDistance));
+            }
+        });
+    }
+
+    private int getRbDistance() {
+        int rbClicked = rgSearchRadius.getCheckedRadioButtonId();
+        if (rbClicked == rb10miles.getId()) {
+            return 10;
+        } else if (rbClicked == rb25miles.getId()) {
+            return 25;
+        } else if (rbClicked == rb50miles.getId()) {
+            return 50;
+        } else if (rbClicked == rb100miles.getId()) {
+            return 100;
+        } else {
+            return 4000;
+        }
     }
 }
