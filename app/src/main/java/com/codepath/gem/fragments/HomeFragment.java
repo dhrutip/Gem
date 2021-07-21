@@ -111,6 +111,9 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         query.include(Experience.KEY_HOST);
         query.setLimit(20);
         query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
+        if (homeTag != null && !homeTag.equals("all")) {
+            query.whereContains(Experience.KEY_DESCRIPTION, homeTag);
+        }
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Experience>() {
             @Override
@@ -151,6 +154,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     }
 
     public void setHomeTag(String searchTag) {
+        Toast.makeText(getContext(), "set home tag to " + searchTag, Toast.LENGTH_SHORT).show();
         homeTag = searchTag;
     }
 
