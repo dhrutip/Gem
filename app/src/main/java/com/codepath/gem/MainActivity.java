@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationView;
+    private String FRAGMENT_TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +41,20 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         fragment = new HomeFragment();
+                        FRAGMENT_TAG = "HomeFragment";
                         break;
                     case R.id.action_create:
                         fragment = new CreateFragment();
+                        FRAGMENT_TAG = "CreateFragment";
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
+                        FRAGMENT_TAG = "ProfileFragment";
                         break;
                     default:
                         return true;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment, FRAGMENT_TAG).commit();
                 return true;
             }
         });
@@ -66,6 +70,13 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.itemSearch) {
             Intent goToSearch = new Intent(this, SearchActivity.class);
             startActivity(goToSearch);
+            HomeFragment homeFragment = (HomeFragment)
+                    getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG);
+            // sending dummy values to home fragment, just to check that data sending works correctly
+            // TODO: update to real values obtained from search activity
+            homeFragment.setHomeRadius(46);
+            homeFragment.setHomeLatitude(41.871941);
+            homeFragment.setHomeLongitude(12.56738);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -24,11 +24,11 @@ import java.util.Arrays;
 public class SearchActivity extends AppCompatActivity {
 
     public static final String TAG = "SearchActivity";
-    String placeName;
-    Double latitude, longitude;
+    String searchPlaceName;
+    Double searchLatitude, searchLongitude;
     RadioGroup rgSearchRadius;
-    RadioButton rb10miles, rb25miles, rb50miles, rb100miles;
-    public int rbDistance;
+    RadioButton rb10miles, rb25miles, rb50miles, rb100miles, rbDefault;
+    Integer rbDistance = 7900;
     Button btnSearch;
 
     @Override
@@ -40,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
         rb25miles = findViewById(R.id.rb25miles);
         rb50miles = findViewById(R.id.rb50miles);
         rb100miles = findViewById(R.id.rb100miles);
+        rbDefault = findViewById(R.id.rbDefault);
         btnSearch = findViewById(R.id.btnSearch);
 
         // Initialize the SDK
@@ -58,9 +59,9 @@ public class SearchActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                placeName = place.getName();
-                latitude = place.getLatLng().latitude;
-                longitude = place.getLatLng().longitude;
+                searchPlaceName = place.getName();
+                searchLatitude = place.getLatLng().latitude;
+                searchLongitude = place.getLatLng().longitude;
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
 
@@ -73,24 +74,25 @@ public class SearchActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rbDistance = getRbDistance();
+                setRbDistance();
                 Log.i(TAG, "RbDistance: " + String.valueOf(rbDistance));
+                // TODO: return to home fragment, notifyDataSetChanged()
             }
         });
     }
 
-    private int getRbDistance() {
+    private void setRbDistance() {
         int rbClicked = rgSearchRadius.getCheckedRadioButtonId();
         if (rbClicked == rb10miles.getId()) {
-            return 10;
+            rbDistance = 10;
         } else if (rbClicked == rb25miles.getId()) {
-            return 25;
+            rbDistance = 25;
         } else if (rbClicked == rb50miles.getId()) {
-            return 50;
+            rbDistance = 50;
         } else if (rbClicked == rb100miles.getId()) {
-            return 100;
-        } else {
-            return 4000;
+            rbDistance = 100;
+        } else if (rbClicked == rb100miles.getId()) {
+            rbDistance = 7900;
         }
     }
 }

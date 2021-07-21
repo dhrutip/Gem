@@ -15,14 +15,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.gem.ExperienceDetailsActivity;
+import com.codepath.gem.MainActivity;
 import com.codepath.gem.R;
+import com.codepath.gem.SearchActivity;
 import com.codepath.gem.adapters.ExperiencesAdapter;
 import com.codepath.gem.models.Experience;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
@@ -37,6 +42,9 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     protected List<Experience> allExperiences;
     protected ExperiencesAdapter experiencesAdapter;
     private SwipeRefreshLayout swipeContainer;
+    private Integer homeRadius;
+    private Double homeLatitude, homeLongitude;
+    ParseGeoPoint geoPoint;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -62,6 +70,18 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         allExperiences = new ArrayList<>();
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
 
+        if (homeLatitude == null && homeLongitude == null) {
+            homeLatitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLatitude();
+            homeLongitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLongitude();
+            geoPoint = new ParseGeoPoint(homeLatitude, homeLongitude);
+            Log.i(TAG, "both lat and long null, made geopoint at " + geoPoint.getLatitude() + " " + geoPoint.getLongitude());
+        }
+
+        if (homeRadius == null) {
+            Log.i(TAG, "home radius is null");
+            homeRadius = 7900;
+        }
+
         rvExperiences.setAdapter(experiencesAdapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -70,6 +90,8 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
             @Override
             public void onRefresh() {
                 experiencesAdapter.clear();
+                geoPoint = new ParseGeoPoint(homeLatitude, homeLongitude);
+                Log.i(TAG, "swiped to refresh, made geopoint at " + geoPoint.getLatitude() + " " + geoPoint.getLongitude());
                 queryExperiences();
                 swipeContainer.setRefreshing(false);
             }
@@ -83,10 +105,12 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         queryExperiences();
     }
 
-    protected void queryExperiences() {
+    public void queryExperiences() {
         ParseQuery<Experience> query = ParseQuery.getQuery(Experience.class);
         query.include(Experience.KEY_HOST);
         query.setLimit(20);
+        query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
+        // query.whereWithinMiles(Experience.KEY_LOCATION, ParseUser.getCurrentUser().getParseGeoPoint("location"), SearchActivity.rbDistance);
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Experience>() {
             @Override
@@ -99,6 +123,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
                 for (Experience experience : experiencesList) {
                     Log.i(TAG, "Experience: " + experience.getDescription() + ", username: " + experience.getHost().getUsername());
                 }
+                Log.i(TAG, "after query, lat: " + geoPoint.getLatitude() + " long: " + geoPoint.getLongitude() + " rad: " + homeRadius);
                 allExperiences.addAll(experiencesList);
                 experiencesAdapter.notifyDataSetChanged();
             }
@@ -112,4 +137,16 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(clickedExperience));
         startActivity(intent);
     }
+    public void setHomeLatitude(Double searchLatitude) {
+        homeLatitude = searchLatitude;
+    }
+
+    public void setHomeLongitude(Double searchLongitude) {
+        homeLongitude = searchLongitude;
+    }
+
+    public void setHomeRadius(Integer searchRadius) {
+        homeRadius = searchRadius;
+    }
+
 }
