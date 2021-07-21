@@ -30,7 +30,10 @@ public class SearchActivity extends AppCompatActivity {
     Double searchLatitude, searchLongitude;
     RadioGroup rgSearchRadius;
     RadioButton rb10miles, rb25miles, rb50miles, rb100miles, rbDefault;
-    Integer rbDistance = 7900;
+    RadioGroup rgFilterTags;
+    RadioButton rbTagsFood, rbTagsNature, rbTagsAttractions, rbTagsAccessible, rbTagsAll;
+    Integer rbDistance;
+    String rbTag;
     Button btnSearch;
 
     @Override
@@ -43,6 +46,14 @@ public class SearchActivity extends AppCompatActivity {
         rb50miles = findViewById(R.id.rb50miles);
         rb100miles = findViewById(R.id.rb100miles);
         rbDefault = findViewById(R.id.rbDefault);
+
+        rgFilterTags = findViewById(R.id.rgFilterTags);
+        rbTagsFood = findViewById(R.id.rbTagsFood);
+        rbTagsNature = findViewById(R.id.rbTagsNature);
+        rbTagsAttractions = findViewById(R.id.rbTagsAttractions);
+        rbTagsAccessible = findViewById(R.id.rbTagsAccessible);
+        rbTagsAll = findViewById(R.id.rbTagsAll);
+
         btnSearch = findViewById(R.id.btnSearch);
 
         // Initialize the SDK
@@ -81,10 +92,12 @@ public class SearchActivity extends AppCompatActivity {
                     return;
                 }
                 setRbDistance();
+                setRbTag();
                 Intent intentToHome = new Intent();
                 intentToHome.putExtra("radius", rbDistance);
                 intentToHome.putExtra("latitude", searchLatitude);
                 intentToHome.putExtra("longitude", searchLongitude);
+                intentToHome.putExtra("tag", rbTag);
                 setResult(RESULT_CODE, intentToHome);
                 finish();
             }
@@ -101,8 +114,23 @@ public class SearchActivity extends AppCompatActivity {
             rbDistance = 50;
         } else if (rbClicked == rb100miles.getId()) {
             rbDistance = 100;
-        } else if (rbClicked == rb100miles.getId()) {
+        } else if (rbClicked == rbDefault.getId()) {
             rbDistance = 7900;
+        }
+    }
+
+    private void setRbTag() {
+        int rbClicked = rgFilterTags.getCheckedRadioButtonId();
+        if (rbClicked == rbTagsFood.getId()) {
+            rbTag = "food";
+        } else if (rbClicked == rbTagsNature.getId()) {
+            rbTag = "nature";
+        } else if (rbClicked == rbTagsAttractions.getId()) {
+            rbTag = "attractions";
+        } else if (rbClicked == rbTagsAccessible.getId()) {
+            rbTag = "accessible";
+        } else if (rbClicked == rbTagsAll.getId()) {
+            rbTag = "all";
         }
     }
 }

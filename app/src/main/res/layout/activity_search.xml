@@ -62,11 +62,61 @@
             android:text="Default"/>
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/tvFilterTagsInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select tags to filter by:"
+        android:layout_below="@id/rgSearchRadius"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgFilterTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tvFilterTagsInfo"
+        android:checkedButton="@+id/rbTagsAll">
+
+        <RadioButton
+            android:id="@+id/rbTagsFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Food"/>
+
+        <RadioButton
+            android:id="@+id/rbTagsNature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nature" />
+
+        <RadioButton
+            android:id="@+id/rbTagsAttractions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attractions" />
+
+        <RadioButton
+            android:id="@+id/rbTagsAccessible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accessible" />
+
+        <RadioButton
+            android:id="@+id/rbTagsAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rgSearchRadius"
+        android:layout_below="@id/rgFilterTags"
         android:layout_centerHorizontal="true"
         android:text="search!"/>
 

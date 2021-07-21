@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
             if (data.hasExtra("longitude")) {
                 homeFragment.setHomeLongitude(data.getDoubleExtra("longitude", 0.0));
             }
+            if (data.hasExtra("tag")) {
+                homeFragment.setHomeTag(data.getStringExtra("tag"));
+            }
         }
     }
 

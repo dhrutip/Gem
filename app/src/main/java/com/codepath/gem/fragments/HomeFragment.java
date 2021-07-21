@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     private SwipeRefreshLayout swipeContainer;
     private Integer homeRadius;
     private Double homeLatitude, homeLongitude;
+    private String homeTag;
     ParseGeoPoint geoPoint;
 
     public HomeFragment() {
@@ -147,6 +148,10 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
 
     public void setHomeRadius(Integer searchRadius) {
         homeRadius = searchRadius;
+    }
+
+    public void setHomeTag(String searchTag) {
+        homeTag = searchTag;
     }
 
 }
