@@ -110,7 +110,6 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         query.include(Experience.KEY_HOST);
         query.setLimit(20);
         query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
-        // query.whereWithinMiles(Experience.KEY_LOCATION, ParseUser.getCurrentUser().getParseGeoPoint("location"), SearchActivity.rbDistance);
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Experience>() {
             @Override
@@ -137,6 +136,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(clickedExperience));
         startActivity(intent);
     }
+
     public void setHomeLatitude(Double searchLatitude) {
         homeLatitude = searchLatitude;
     }

@@ -1,6 +1,7 @@
 package com.codepath.gem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +25,7 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    private final int REQUEST_CODE = 42;
     private BottomNavigationView bottomNavigationView;
     private String FRAGMENT_TAG;
 
@@ -69,17 +71,28 @@ public class MainActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.itemSearch) {
             Intent goToSearch = new Intent(this, SearchActivity.class);
-            startActivity(goToSearch);
-            HomeFragment homeFragment = (HomeFragment)
-                    getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG);
-            // sending dummy values to home fragment, just to check that data sending works correctly
-            // TODO: update to real values obtained from search activity
-            homeFragment.setHomeRadius(46);
-            homeFragment.setHomeLatitude(41.871941);
-            homeFragment.setHomeLongitude(12.56738);
+            startActivityForResult(goToSearch, REQUEST_CODE);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && requestCode == REQUEST_CODE) {
+            HomeFragment homeFragment = (HomeFragment)
+                    getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG);
+            if (data.hasExtra("radius")) {
+                homeFragment.setHomeRadius(data.getIntExtra("radius", 7900));
+            }
+            if (data.hasExtra("latitude")) {
+                homeFragment.setHomeLatitude(data.getDoubleExtra("latitude", 0.0));
+            }
+            if (data.hasExtra("longitude")) {
+                homeFragment.setHomeLongitude(data.getDoubleExtra("longitude", 0.0));
+            }
+        }
     }
 
     private void onLogoutButton() {

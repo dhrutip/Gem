@@ -3,6 +3,7 @@ package com.codepath.gem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 public class SearchActivity extends AppCompatActivity {
 
     public static final String TAG = "SearchActivity";
+    public static final int RESULT_CODE = 42;
     String searchPlaceName;
     Double searchLatitude, searchLongitude;
     RadioGroup rgSearchRadius;
@@ -74,9 +76,17 @@ public class SearchActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (searchPlaceName == null) {
+                    Toast.makeText(SearchActivity.this, "please enter a city to search!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 setRbDistance();
-                Log.i(TAG, "RbDistance: " + String.valueOf(rbDistance));
-                // TODO: return to home fragment, notifyDataSetChanged()
+                Intent intentToHome = new Intent();
+                intentToHome.putExtra("radius", rbDistance);
+                intentToHome.putExtra("latitude", searchLatitude);
+                intentToHome.putExtra("longitude", searchLongitude);
+                setResult(RESULT_CODE, intentToHome);
+                finish();
             }
         });
     }

@@ -97,7 +97,6 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
 
     private void checkCommitment() {

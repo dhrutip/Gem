@@ -28,7 +28,8 @@
         android:layout_below="@id/tvSearchDistanceInfo"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:checkedButton="@+id/rbDefault">
         <RadioButton
             android:id="@+id/rb10miles"
             android:layout_width="wrap_content"
