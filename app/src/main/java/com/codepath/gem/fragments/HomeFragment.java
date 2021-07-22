@@ -130,13 +130,9 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         query.include(Experience.KEY_HOST);
         query.setLimit(20);
         query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
-        if (homeTag != null && !homeTag.equals(KEY_ALL)) {
-            if (defaultTags.contains(homeTag)) {
-                query.whereContains(Experience.KEY_DESCRIPTION, homeTag); // default tag
-            } else {
-                String formattedHomeTag = properlyFormat(homeTag);
-                query.whereContains(Experience.KEY_DESCRIPTION, formattedHomeTag); // custom tag
-            }
+        if (homeTag != null && !homeTag.equals(KEY_ALL) && !defaultTags.contains(homeTag)) {
+            String formattedHomeTag = properlyFormat(homeTag);
+            query.whereContains(Experience.KEY_DESCRIPTION, formattedHomeTag); // custom tag
         }
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Experience>() {
@@ -146,9 +142,22 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                // for debugging purposes, print every post description to logcat
-                for (Experience experience : experiencesList) {
-                    Log.i(TAG, "Experience: " + experience.getDescription() + ", username: " + experience.getHost().getUsername());
+                // filter by related keyword sets if the tag is a default tag
+                if (homeTag != null && !homeTag.equals(KEY_ALL) && defaultTags.contains(homeTag)) {
+                    ArrayList<Experience> removeExperiences = new ArrayList<>();
+                    for (int i = 0; i < experiencesList.size(); i++) {
+                        Experience experience = experiencesList.get(i);
+                        Log.i(TAG, "Experience: " + experience.getDescription());
+                        // if not tagged, add to list of experiences to be removed
+                        if (!isTagged(experience.getDescription(), homeTag)) {
+                            Log.i(TAG, "Experience TO BE REMOVED: " + experience.getDescription());
+                            removeExperiences.add(experience);
+                        }
+                    }
+                    // remove all from list of not tagged experiences
+                    for (Experience exp : removeExperiences) {
+                        experiencesList.remove(exp);
+                    }
                 }
                 Log.i(TAG, "after query, lat: " + geoPoint.getLatitude() + " long: " + geoPoint.getLongitude() + " rad: " + homeRadius);
                 allExperiences.addAll(experiencesList);
@@ -163,6 +172,30 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         Intent intent = new Intent(getContext(), ExperienceDetailsActivity.class);
         intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(clickedExperience));
         startActivity(intent);
+    }
+
+    private boolean isTagged(String fullDescription, String tag) {
+        fullDescription = fullDescription.toLowerCase();
+        tag = tag.toLowerCase();
+        // classifying based on keyword sets
+        Set<String> selectedTags = new HashSet<>();
+        if (tag.equals(KEY_FOOD)) {
+            selectedTags = foodTags;
+        } else if (tag.equals(KEY_NATURE)) {
+            selectedTags = natureTags;
+        } else if (tag.equals(KEY_ATTRACTIONS)) {
+            selectedTags = attractionsTags;
+        } else if (tag.equals(KEY_ACCESSIBLE)) {
+            selectedTags = accessibleTags;
+        }
+        if (selectedTags.size() > 0) {
+            for (String subTag : selectedTags) {
+                if (fullDescription.contains(subTag)) {
+                    return true;
+                }
+            }
+        }
+        return fullDescription.contains(tag);
     }
 
     public void setHomeLatitude(Double searchLatitude) {
@@ -189,39 +222,40 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     }
 
     private void populateFoodTags() {
-        foodTags.add("food");
         foodTags.add("breakfast");
         foodTags.add("lunch");
         foodTags.add("dinner");
         foodTags.add("meal");
         foodTags.add("eat");
+        foodTags.add("dine");
     }
 
     private void populateNatureTags() {
-        natureTags.add("nature");
         natureTags.add("trees");
         natureTags.add("mountains");
         natureTags.add("beach");
         natureTags.add("animals");
+        natureTags.add("coast");
+        natureTags.add("lake");
     }
 
     private void populateAttractionsTags() {
-        attractionsTags.add("attractions");
         attractionsTags.add("tourist");
+        attractionsTags.add("popular");
+        attractionsTags.add("sightsee");
+        attractionsTags.add("excursion");
+        attractionsTags.add("destination");
     }
 
     private void populateAccessibleTags() {
-        accessibleTags.add("accessible");
+        accessibleTags.add("access");
         accessibleTags.add("wheelchair");
+        accessibleTags.add("handicap");
+        accessibleTags.add("disabl"); // disable, disability
+        accessibleTags.add("mobility");
     }
 
     private String properlyFormat(String hTag) {
         return hTag.toLowerCase();
-    }
-
-    private boolean isTagged(String fullDescription, String tag) {
-        fullDescription = fullDescription.toLowerCase();
-        tag = tag.toLowerCase();
-        return fullDescription.contains(tag);
     }
 }
