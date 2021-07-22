@@ -59,14 +59,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="Default"/>
+            android:text="Default (all)"/>
     </RadioGroup>
 
     <TextView
         android:id="@+id/tvFilterTagsInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select tags to filter by:"
+        android:text="Select a tag to filter by:"
         android:layout_below="@id/rgSearchRadius"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"/>
@@ -75,11 +75,16 @@
         android:id="@+id/rgFilterTags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical"
         android:layout_below="@+id/tvFilterTagsInfo"
         android:checkedButton="@+id/rbTagsAll">
+
+        <RadioButton
+            android:id="@+id/rbTagsAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"/>
 
         <RadioButton
             android:id="@+id/rbTagsFood"
@@ -106,11 +111,19 @@
             android:text="Accessible" />
 
         <RadioButton
-            android:id="@+id/rbTagsAll"
+            android:id="@+id/rbTagsCustom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All"/>
+            android:text="Custom"/>
     </RadioGroup>
+
+    <EditText
+        android:id="@+id/etCustomTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rgFilterTags"
+        android:layout_toEndOf="@id/rgFilterTags"
+        android:hint="Enter filter here!" />
 
     <Button
         android:id="@+id/btnSearch"

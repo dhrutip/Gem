@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.codepath.gem.fragments.HomeFragment;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -31,10 +33,11 @@ public class SearchActivity extends AppCompatActivity {
     RadioGroup rgSearchRadius;
     RadioButton rb10miles, rb25miles, rb50miles, rb100miles, rbDefault;
     RadioGroup rgFilterTags;
-    RadioButton rbTagsFood, rbTagsNature, rbTagsAttractions, rbTagsAccessible, rbTagsAll;
+    RadioButton rbTagsFood, rbTagsNature, rbTagsAttractions, rbTagsAccessible, rbTagsAll, rbTagsCustom;
     Integer rbDistance;
     String rbTag;
     Button btnSearch;
+    EditText etCustomTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,10 @@ public class SearchActivity extends AppCompatActivity {
         rbTagsAttractions = findViewById(R.id.rbTagsAttractions);
         rbTagsAccessible = findViewById(R.id.rbTagsAccessible);
         rbTagsAll = findViewById(R.id.rbTagsAll);
+        rbTagsCustom = findViewById(R.id.rbTagsCustom);
 
         btnSearch = findViewById(R.id.btnSearch);
+        etCustomTag = findViewById(R.id.etCustomTag);
 
         // Initialize the SDK
         Places.initialize(SearchActivity.this, getResources().getString(R.string.google_maps_key));
@@ -93,6 +98,10 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 setRbDistance();
                 setRbTag();
+                if (rbTag == null || rbTag.equals("")) {
+                    Toast.makeText(SearchActivity.this, "please enter a custom filter!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intentToHome = new Intent();
                 intentToHome.putExtra("radius", rbDistance);
                 intentToHome.putExtra("latitude", searchLatitude);
@@ -122,15 +131,17 @@ public class SearchActivity extends AppCompatActivity {
     private void setRbTag() {
         int rbClicked = rgFilterTags.getCheckedRadioButtonId();
         if (rbClicked == rbTagsFood.getId()) {
-            rbTag = "food";
+            rbTag = HomeFragment.KEY_FOOD;
         } else if (rbClicked == rbTagsNature.getId()) {
-            rbTag = "nature";
+            rbTag = HomeFragment.KEY_NATURE;
         } else if (rbClicked == rbTagsAttractions.getId()) {
-            rbTag = "attractions";
+            rbTag = HomeFragment.KEY_ATTRACTIONS;
         } else if (rbClicked == rbTagsAccessible.getId()) {
-            rbTag = "accessible";
+            rbTag = HomeFragment.KEY_ACCESSIBLE;
         } else if (rbClicked == rbTagsAll.getId()) {
-            rbTag = "all";
+            rbTag = HomeFragment.KEY_ALL;
+        } else if (rbClicked == rbTagsCustom.getId()) {
+            rbTag = etCustomTag.getText().toString().toLowerCase();
         }
     }
 }

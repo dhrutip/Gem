@@ -29,7 +29,7 @@ To view my (constantly updating) project plan and follow my progress, check out 
 - [x] Users can log in/log out of the app
 - [x] Users can create a new account
 - [x] Users can post new experiences
-  - [ ] Each post allows for a title, description, location, contact info, and images
+  - [x] Each post allows for a title, description, location, contact info, and images
 - [x] Users can scroll through experiences (feed)
   - [x] Users can view a details page about each experience
   - [x] Users can get directions to the location of an experience
@@ -38,9 +38,12 @@ To view my (constantly updating) project plan and follow my progress, check out 
 
 **Optional Nice-to-have Stories**
 
-- [ ] Users can filter experiences based on category
+- [x] Users can search for experiences
+   - [x] Users can input cities and filter experiences by search radius
+   - [x] Users can select predetermined tags to filter experiences
+   - [ ] Users can create custom tag filters for experiences
 - [x] Users can view profile page
-   - [x] profile page displays a 'my commitments' tab and a 'my listings' tab
+   - [x] Profile page displays a 'my commitments' tab and a 'my listings' tab
 - [ ] Users can leave reviews on experiences
 - [ ] Users can un-favorite posts
 - [ ] Users can delete their posts
@@ -75,9 +78,10 @@ Optional:
 **Tab Navigation** (Tab to Screen)
 
 * Feed
-* Commitments
 * Create
 * Profile
+   * Commitments
+   * Listings
 
 **Flow Navigation** (Screen to Screen)
 

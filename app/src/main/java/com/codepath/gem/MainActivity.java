@@ -43,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         fragment = new HomeFragment();
-                        FRAGMENT_TAG = "HomeFragment";
+                        FRAGMENT_TAG = HomeFragment.TAG;
                         break;
                     case R.id.action_create:
                         fragment = new CreateFragment();
-                        FRAGMENT_TAG = "CreateFragment";
+                        FRAGMENT_TAG = CreateFragment.TAG;
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
-                        FRAGMENT_TAG = "ProfileFragment";
+                        FRAGMENT_TAG = ProfileFragment.TAG;
                         break;
                     default:
                         return true;

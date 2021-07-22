@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         populateAttractionsTags();
         populateAccessibleTags();
 
-
         if (homeLatitude == null && homeLongitude == null) {
             homeLatitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLatitude();
             homeLongitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLongitude();
@@ -131,8 +130,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         query.setLimit(20);
         query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
         if (homeTag != null && !homeTag.equals(KEY_ALL) && !defaultTags.contains(homeTag)) {
-            String formattedHomeTag = properlyFormat(homeTag);
-            query.whereContains(Experience.KEY_DESCRIPTION, formattedHomeTag); // custom tag
+            query.whereContains(Experience.KEY_DESCRIPTION, homeTag); // custom tag
         }
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Experience>() {
@@ -251,11 +249,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         accessibleTags.add("access");
         accessibleTags.add("wheelchair");
         accessibleTags.add("handicap");
-        accessibleTags.add("disabl"); // disable, disability
+        accessibleTags.add("disab"); // disable/d, disability
         accessibleTags.add("mobility");
-    }
-
-    private String properlyFormat(String hTag) {
-        return hTag.toLowerCase();
     }
 }
