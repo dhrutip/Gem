@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         startActivity(intent);
     }
 
-    private boolean isTagged(String fullDescription, String tag) {
+    public boolean isTagged(String fullDescription, String tag) {
         fullDescription = fullDescription.toLowerCase();
         tag = tag.toLowerCase();
         // classifying based on keyword sets
@@ -212,14 +212,14 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         homeTag = searchTag;
     }
 
-    private void populateDefaultTags() {
+    public void populateDefaultTags() {
         defaultTags.add("food");
         defaultTags.add("nature");
         defaultTags.add("attractions");
         defaultTags.add("accessible");
     }
 
-    private void populateFoodTags() {
+    public void populateFoodTags() {
         foodTags.add("breakfast");
         foodTags.add("lunch");
         foodTags.add("dinner");
@@ -228,7 +228,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         foodTags.add("dine");
     }
 
-    private void populateNatureTags() {
+    public void populateNatureTags() {
         natureTags.add("trees");
         natureTags.add("mountains");
         natureTags.add("beach");
@@ -237,7 +237,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         natureTags.add("lake");
     }
 
-    private void populateAttractionsTags() {
+    public void populateAttractionsTags() {
         attractionsTags.add("tourist");
         attractionsTags.add("popular");
         attractionsTags.add("sightsee");
@@ -245,7 +245,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         attractionsTags.add("destination");
     }
 
-    private void populateAccessibleTags() {
+    public void populateAccessibleTags() {
         accessibleTags.add("access");
         accessibleTags.add("wheelchair");
         accessibleTags.add("handicap");
