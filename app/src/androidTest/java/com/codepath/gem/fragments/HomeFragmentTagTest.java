@@ -3,6 +3,8 @@ package com.codepath.gem.fragments;
 import static org.junit.Assert.*;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.codepath.gem.utilities.SearchTagSets;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +26,8 @@ public class HomeFragmentTagTest {
     @Before
     public void createHomeFragment() {
         hf = new HomeFragment();
-        hf.populateDefaultTags();
-        hf.populateNatureTags();
+        SearchTagSets.populateDefaultTags();
+        SearchTagSets.populateNatureTags();
     }
 
     @Test

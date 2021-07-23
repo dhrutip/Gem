@@ -23,6 +23,7 @@ import com.codepath.gem.R;
 import com.codepath.gem.SearchActivity;
 import com.codepath.gem.adapters.ExperiencesAdapter;
 import com.codepath.gem.models.Experience;
+import com.codepath.gem.utilities.SearchTagSets;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -54,12 +55,6 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     private String homeTag;
     ParseGeoPoint geoPoint;
 
-    final Set<String> defaultTags = new HashSet<>();
-    final Set<String> foodTags = new HashSet<>();
-    final Set<String> natureTags = new HashSet<>();
-    final Set<String> attractionsTags = new HashSet<>();
-    final Set<String> accessibleTags = new HashSet<>();
-
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -83,11 +78,11 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         rvExperiences = view.findViewById(R.id.rvExperiences);
         allExperiences = new ArrayList<>();
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
-        populateDefaultTags();
-        populateFoodTags();
-        populateNatureTags();
-        populateAttractionsTags();
-        populateAccessibleTags();
+        SearchTagSets.populateDefaultTags();
+        SearchTagSets.populateFoodTags();
+        SearchTagSets.populateNatureTags();
+        SearchTagSets.populateAttractionsTags();
+        SearchTagSets.populateAccessibleTags();
 
         if (homeLatitude == null && homeLongitude == null) {
             homeLatitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLatitude();
@@ -129,7 +124,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         query.include(Experience.KEY_HOST);
         query.setLimit(20);
         query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
-        if (homeTag != null && !homeTag.equals(KEY_ALL) && !defaultTags.contains(homeTag)) {
+        if (homeTag != null && !homeTag.equals(KEY_ALL) && !SearchTagSets.defaultTags.contains(homeTag)) {
             query.whereContains(Experience.KEY_DESCRIPTION, homeTag); // custom tag
         }
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
@@ -141,7 +136,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
                     return;
                 }
                 // filter by related keyword sets if the tag is a default tag
-                if (homeTag != null && !homeTag.equals(KEY_ALL) && defaultTags.contains(homeTag)) {
+                if (homeTag != null && !homeTag.equals(KEY_ALL) && SearchTagSets.defaultTags.contains(homeTag)) {
                     ArrayList<Experience> removeExperiences = new ArrayList<>();
                     for (int i = 0; i < experiencesList.size(); i++) {
                         Experience experience = experiencesList.get(i);
@@ -178,13 +173,13 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         // classifying based on keyword sets
         Set<String> selectedTags = new HashSet<>();
         if (tag.equals(KEY_FOOD)) {
-            selectedTags = foodTags;
+            selectedTags = SearchTagSets.foodTags;
         } else if (tag.equals(KEY_NATURE)) {
-            selectedTags = natureTags;
+            selectedTags = SearchTagSets.natureTags;
         } else if (tag.equals(KEY_ATTRACTIONS)) {
-            selectedTags = attractionsTags;
+            selectedTags = SearchTagSets.attractionsTags;
         } else if (tag.equals(KEY_ACCESSIBLE)) {
-            selectedTags = accessibleTags;
+            selectedTags = SearchTagSets.accessibleTags;
         }
         if (selectedTags.size() > 0) {
             for (String subTag : selectedTags) {
@@ -212,44 +207,4 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         homeTag = searchTag;
     }
 
-    public void populateDefaultTags() {
-        defaultTags.add("food");
-        defaultTags.add("nature");
-        defaultTags.add("attractions");
-        defaultTags.add("accessible");
-    }
-
-    public void populateFoodTags() {
-        foodTags.add("breakfast");
-        foodTags.add("lunch");
-        foodTags.add("dinner");
-        foodTags.add("meal");
-        foodTags.add("eat");
-        foodTags.add("dine");
-    }
-
-    public void populateNatureTags() {
-        natureTags.add("trees");
-        natureTags.add("mountains");
-        natureTags.add("beach");
-        natureTags.add("animals");
-        natureTags.add("coast");
-        natureTags.add("lake");
-    }
-
-    public void populateAttractionsTags() {
-        attractionsTags.add("tourist");
-        attractionsTags.add("popular");
-        attractionsTags.add("sightsee");
-        attractionsTags.add("excursion");
-        attractionsTags.add("destination");
-    }
-
-    public void populateAccessibleTags() {
-        accessibleTags.add("access");
-        accessibleTags.add("wheelchair");
-        accessibleTags.add("handicap");
-        accessibleTags.add("disab"); // disable/d, disability
-        accessibleTags.add("mobility");
-    }
 }
