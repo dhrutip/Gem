@@ -2,8 +2,11 @@ package com.codepath.gem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.gem.functions.OnDoubleTapListener;
@@ -34,7 +38,8 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     TextView tvDetailsDescription;
     ImageView ivDetailsImageOne;
     ImageView ivDetailsImageTwo;
-    ImageButton btnDetailsAddInterest;
+    ImageButton ibDetailsAddInterest;
+    ImageButton ibDeleteExperience;
     Button btnDetailsLocate;
     boolean commitmentExists;
     Context context;
@@ -48,7 +53,8 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         tvDetailsDescription = findViewById(R.id.tvDetailsDescription);
         ivDetailsImageOne = findViewById(R.id.ivDetailsImageOne);
         ivDetailsImageTwo = findViewById(R.id.ivDetailsImageTwo);
-        btnDetailsAddInterest = findViewById(R.id.btnDetailsAddInterest);
+        ibDetailsAddInterest = findViewById(R.id.ibDetailsAddInterest);
+        ibDeleteExperience = findViewById(R.id.ibDeleteExperience);
         btnDetailsLocate = findViewById(R.id.btnDetailsLocate);
         context = this;
 
@@ -69,6 +75,35 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         } else {
             ivDetailsImageTwo.setVisibility(View.INVISIBLE);
         }
+
+        // allow host to delete their own experiences
+        if (ParseUser.getCurrentUser().getUsername().equals(experience.getHost().getUsername())) {
+            ibDeleteExperience.setVisibility(View.VISIBLE);
+            ibDeleteExperience.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(ExperienceDetailsActivity.this);
+                    builder.setMessage("Are you sure you want to delete this experience?")
+                            .setCancelable(true)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                    experience.deleteInBackground();
+                                    returnToMain();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    final AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            });
+        } else {
+            ibDeleteExperience.setVisibility(View.INVISIBLE);
+        }
+
         // fill heart icon if already favorited, otherwise allow user to add a commitment via double tap
         checkCommitment();
         Handler handler = new Handler(); // required for checkCommitment() to finish first
@@ -76,13 +111,13 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (commitmentExists == true) {
-                    btnDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
+                    ibDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
                 } else {
-                    btnDetailsAddInterest.setOnTouchListener(new OnDoubleTapListener(context) {
+                    ibDetailsAddInterest.setOnTouchListener(new OnDoubleTapListener(context) {
                         @Override
                         public void onDoubleTap(MotionEvent e) {
                             createCommitment();
-                            btnDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
+                            ibDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
                         }
                     });
                 }
@@ -97,6 +132,12 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void returnToMain() {
+        Intent i = new Intent(ExperienceDetailsActivity.this, MainActivity.class);
+        startActivity(i);
+
     }
 
     private void checkCommitment() {

@@ -58,12 +58,21 @@
         android:text="locate" />
 
     <ImageButton
-        android:id="@+id/btnDetailsAddInterest"
+        android:id="@+id/ibDetailsAddInterest"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_below="@id/btnDetailsLocate"
         android:layout_centerHorizontal="true"
         android:background="#00FFFFFF"
         android:src="@drawable/favorite_border" />
+
+    <ImageButton
+        android:id="@+id/ibDeleteExperience"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="#00FFFFFF"
+        android:src="@drawable/delete_experience"/>
     
 </RelativeLayout>
