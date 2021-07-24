@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
 
         if (homeRadius == null) {
             Log.i(TAG, "home radius is null");
-            homeRadius = 7900;
+            homeRadius = 8000;
         }
 
         rvExperiences.setAdapter(experiencesAdapter);

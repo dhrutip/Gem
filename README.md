@@ -41,12 +41,12 @@ To view my (constantly updating) project plan and follow my progress, check out 
 - [x] Users can search for experiences
    - [x] Users can input cities and filter experiences by search radius
    - [x] Users can select predetermined tags to filter experiences
-   - [ ] Users can create custom tag filters for experiences
+   - [x] Users can create custom tag filters for experiences
 - [x] Users can view profile page
    - [x] Profile page displays a 'my commitments' tab and a 'my listings' tab
 - [ ] Users can leave reviews on experiences
-- [ ] Users can un-favorite posts
-- [ ] Users can delete their posts
+- [x] Users can un-favorite posts
+- [x] Users can delete their posts
 - [ ] Travelers can chat with locals
 - [ ] Users get notifications for nearby activities (OR, users get notifications before activities they marked as interested)
 

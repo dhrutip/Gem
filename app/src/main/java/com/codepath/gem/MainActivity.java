@@ -83,17 +83,17 @@ public class MainActivity extends AppCompatActivity {
         if (data != null && requestCode == REQUEST_CODE) {
             HomeFragment homeFragment = (HomeFragment)
                     getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG);
-            if (data.hasExtra("radius")) {
-                homeFragment.setHomeRadius(data.getIntExtra("radius", 7900));
+            if (data.hasExtra(SearchActivity.KEY_RADIUS)) {
+                homeFragment.setHomeRadius(data.getIntExtra(SearchActivity.KEY_RADIUS, 8000));
             }
-            if (data.hasExtra("latitude")) {
-                homeFragment.setHomeLatitude(data.getDoubleExtra("latitude", 0.0));
+            if (data.hasExtra(SearchActivity.KEY_LATITUDE)) {
+                homeFragment.setHomeLatitude(data.getDoubleExtra(SearchActivity.KEY_LATITUDE, 0.0));
             }
-            if (data.hasExtra("longitude")) {
-                homeFragment.setHomeLongitude(data.getDoubleExtra("longitude", 0.0));
+            if (data.hasExtra(SearchActivity.KEY_LONGITUDE)) {
+                homeFragment.setHomeLongitude(data.getDoubleExtra(SearchActivity.KEY_LONGITUDE, 0.0));
             }
-            if (data.hasExtra("tag")) {
-                homeFragment.setHomeTag(data.getStringExtra("tag"));
+            if (data.hasExtra(SearchActivity.KEY_SEARCH_TAG)) {
+                homeFragment.setHomeTag(data.getStringExtra(SearchActivity.KEY_SEARCH_TAG));
             }
         }
     }

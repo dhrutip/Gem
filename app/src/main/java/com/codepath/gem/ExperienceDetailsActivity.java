@@ -33,6 +33,7 @@ import org.parceler.Parcels;
 public class ExperienceDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "ExperienceDetailsActivity";
+    public static final String KEY_USER_USERNAME = "username";
     Experience experience;
     TextView tvDetailsTitle;
     TextView tvDetailsDescription;
@@ -81,7 +82,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
 
         String currUsername = "";
         try {
-            currUsername = ParseUser.getCurrentUser().fetchIfNeeded().getString("username");
+            currUsername = ParseUser.getCurrentUser().fetchIfNeeded().getString(KEY_USER_USERNAME);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
             e.printStackTrace();
@@ -89,7 +90,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
 
         String hostUsername = "";
         try {
-            hostUsername = experience.getHost().fetchIfNeeded().getString("username");
+            hostUsername = experience.getHost().fetchIfNeeded().getString(KEY_USER_USERNAME);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
             e.printStackTrace();

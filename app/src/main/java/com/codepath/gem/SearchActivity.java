@@ -27,6 +27,10 @@ import java.util.Arrays;
 public class SearchActivity extends AppCompatActivity {
 
     public static final String TAG = "SearchActivity";
+    public static final String KEY_RADIUS = "radius";
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_LONGITUDE = "longitude";
+    public static final String KEY_SEARCH_TAG = "tag";
     public static final int RESULT_CODE = 42;
     String searchPlaceName;
     Double searchLatitude, searchLongitude;
@@ -93,20 +97,20 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (searchPlaceName == null) {
-                    Toast.makeText(SearchActivity.this, "please enter a city to search!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, "Please enter a city to search!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 setRbDistance();
                 setRbTag();
                 if (rbTag == null || rbTag.equals("")) {
-                    Toast.makeText(SearchActivity.this, "please enter a custom filter!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, "Please enter a custom filter!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intentToHome = new Intent();
-                intentToHome.putExtra("radius", rbDistance);
-                intentToHome.putExtra("latitude", searchLatitude);
-                intentToHome.putExtra("longitude", searchLongitude);
-                intentToHome.putExtra("tag", rbTag);
+                intentToHome.putExtra(KEY_RADIUS, rbDistance);
+                intentToHome.putExtra(KEY_LATITUDE, searchLatitude);
+                intentToHome.putExtra(KEY_LONGITUDE, searchLongitude);
+                intentToHome.putExtra(KEY_SEARCH_TAG, rbTag);
                 setResult(RESULT_CODE, intentToHome);
                 finish();
             }

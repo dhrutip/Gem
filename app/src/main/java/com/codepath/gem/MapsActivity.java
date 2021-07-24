@@ -45,7 +45,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Experience experience;
     MarkerOptions marker;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +81,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (e == null) {
                     Log.i(TAG, "size: " + experiences.size());
                     for(int i = 0; i < experiences.size(); i++) {
-                        LatLng experienceLocation = new LatLng(experiences.get(i).getParseGeoPoint("location").getLatitude(), experiences.get(i).getParseGeoPoint("location").getLongitude());
+                        LatLng experienceLocation = new LatLng(experiences.get(i).getParseGeoPoint(Experience.KEY_LOCATION).getLatitude(), experiences.get(i).getParseGeoPoint("location").getLongitude());
                         marker = new MarkerOptions()
                                 .position(experienceLocation)
-                                .title(experiences.get(i).getString("title"))
+                                .title(experiences.get(i).getString(Experience.KEY_TITLE))
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                         googleMap.addMarker(marker);
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(experienceLocation));
