@@ -40,8 +40,10 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     ImageView ivDetailsImageTwo;
     ImageButton ibDetailsAddInterest;
     ImageButton ibDeleteExperience;
+    ImageButton ibRemoveCommitment;
     Button btnDetailsLocate;
     boolean commitmentExists;
+    boolean deleteCommitment = false;
     Context context;
 
     @Override
@@ -55,6 +57,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         ivDetailsImageTwo = findViewById(R.id.ivDetailsImageTwo);
         ibDetailsAddInterest = findViewById(R.id.ibDetailsAddInterest);
         ibDeleteExperience = findViewById(R.id.ibDeleteExperience);
+        ibRemoveCommitment = findViewById(R.id.ibRemoveCommitment);
         btnDetailsLocate = findViewById(R.id.btnDetailsLocate);
         context = this;
 
@@ -76,8 +79,23 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             ivDetailsImageTwo.setVisibility(View.INVISIBLE);
         }
 
+        String currUsername = "";
+        try {
+            currUsername = ParseUser.getCurrentUser().fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            e.printStackTrace();
+        }
+
+        String hostUsername = "";
+        try {
+            hostUsername = experience.getHost().fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            e.printStackTrace();
+        }
         // allow host to delete their own experiences
-        if (ParseUser.getCurrentUser().getUsername().equals(experience.getHost().getUsername())) {
+        if (currUsername.equals(hostUsername)) {
             ibDeleteExperience.setVisibility(View.VISIBLE);
             ibDeleteExperience.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,7 +122,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             ibDeleteExperience.setVisibility(View.INVISIBLE);
         }
 
-        // fill heart icon if already favorited, otherwise allow user to add a commitment via double tap
+        // fill heart icon if already committed, otherwise allow user to add a commitment via double tap
         checkCommitment();
         Handler handler = new Handler(); // required for checkCommitment() to finish first
         handler.postDelayed(new Runnable() {
@@ -112,12 +130,37 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             public void run() {
                 if (commitmentExists == true) {
                     ibDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
+                    ibRemoveCommitment.setVisibility(View.VISIBLE);
+                    ibRemoveCommitment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(ExperienceDetailsActivity.this);
+                            builder.setMessage("Are you sure you want to delete this commitment?")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                            deleteCommitment = true;
+                                            checkCommitment();
+                                            returnToMain();
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            final AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+                    });
                 } else {
+                    ibRemoveCommitment.setVisibility(View.INVISIBLE);
                     ibDetailsAddInterest.setOnTouchListener(new OnDoubleTapListener(context) {
                         @Override
                         public void onDoubleTap(MotionEvent e) {
                             createCommitment();
                             ibDetailsAddInterest.setImageResource(R.drawable.favorite_filled);
+                            ibRemoveCommitment.setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -137,7 +180,6 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     private void returnToMain() {
         Intent i = new Intent(ExperienceDetailsActivity.this, MainActivity.class);
         startActivity(i);
-
     }
 
     private void checkCommitment() {
@@ -158,6 +200,9 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                     Log.i(TAG, "commitment already exists, no need for new commitment");
                     // Toast.makeText(ExperienceDetailsActivity.this, "commitment already exists!", Toast.LENGTH_SHORT).show();
                     commitmentExists = true;
+                    if (deleteCommitment) {
+                        commitment.deleteInBackground();
+                    }
                 }
             }
         });

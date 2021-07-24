@@ -74,5 +74,14 @@
         android:layout_alignParentBottom="true"
         android:background="#00FFFFFF"
         android:src="@drawable/delete_experience"/>
+
+    <ImageButton
+        android:id="@+id/ibRemoveCommitment"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="#00FFFFFF"
+        android:src="@drawable/remove_commitment"/>
     
 </RelativeLayout>
