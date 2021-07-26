@@ -35,13 +35,9 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     public static final String TAG = "ExperienceDetailsActivity";
     public static final String KEY_USER_USERNAME = "username";
     Experience experience;
-    TextView tvDetailsTitle;
-    TextView tvDetailsDescription;
-    ImageView ivDetailsImageOne;
-    ImageView ivDetailsImageTwo;
-    ImageButton ibDetailsAddInterest;
-    ImageButton ibDeleteExperience;
-    ImageButton ibRemoveCommitment;
+    TextView tvDetailsTitle, tvDetailsDescription, tvStartDateDetails, tvEndDateDetails;
+    ImageView ivDetailsImageOne, ivDetailsImageTwo;
+    ImageButton ibDetailsAddInterest, ibDeleteExperience, ibRemoveCommitment;
     Button btnDetailsLocate;
     boolean commitmentExists;
     boolean deleteCommitment = false;
@@ -54,6 +50,8 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
 
         tvDetailsTitle = findViewById(R.id.tvDetailsTitle);
         tvDetailsDescription = findViewById(R.id.tvDetailsDescription);
+        tvStartDateDetails = findViewById(R.id.tvStartDateDetails);
+        tvEndDateDetails = findViewById(R.id.tvEndDateDetails);
         ivDetailsImageOne = findViewById(R.id.ivDetailsImageOne);
         ivDetailsImageTwo = findViewById(R.id.ivDetailsImageTwo);
         ibDetailsAddInterest = findViewById(R.id.ibDetailsAddInterest);
@@ -65,6 +63,10 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         experience = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
         tvDetailsTitle.setText(experience.getTitle());
         tvDetailsDescription.setText(experience.getDescription());
+        if (experience.getStartDate() != null && experience.getEndDate() != null) {
+            tvStartDateDetails.setText(experience.getStartDate().toString());
+            tvEndDateDetails.setText(experience.getEndDate().toString());
+        }
         if (experience.getImageOne() != null) {
             Glide.with(this)
                     .load(experience.getImageOne().getUrl())

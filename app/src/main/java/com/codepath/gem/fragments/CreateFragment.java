@@ -120,6 +120,26 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
             }
         });
 
+        btnStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment startDatePicker = new DatePickerFragment();
+                startDatePicker.setTargetFragment(CreateFragment.this, 0);
+                startDatePicker.show(getFragmentManager(), "startDatePicker");
+                startDatePicked = true;
+            }
+        });
+
+        btnEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment endDatePicker = new DatePickerFragment();
+                endDatePicker.setTargetFragment(CreateFragment.this, 0);
+                endDatePicker.show(getFragmentManager(), "endDatePicker");
+                endDatePicked = true;
+            }
+        });
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,28 +161,20 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
                     Toast.makeText(getContext(), "Please select a location", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (startDate == null || endDate == null) {
+                    Toast.makeText(getContext(), "Please enter start and end dates", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (startDate.before(Calendar.getInstance().getTime())) {
+                    Toast.makeText(getContext(), "Start date cannot be before the current date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (startDate.after(endDate)) {
+                    Toast.makeText(getContext(), "Start date cannot be after end date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 saveExperience(title, description, currentUser);
-            }
-        });
-
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment startDatePicker = new DatePickerFragment();
-                startDatePicker.setTargetFragment(CreateFragment.this, 0);
-                startDatePicker.show(getFragmentManager(), "startDatePicker");
-                startDatePicked = true;
-            }
-        });
-
-        btnEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment endDatePicker = new DatePickerFragment();
-                endDatePicker.setTargetFragment(CreateFragment.this, 0);
-                endDatePicker.show(getFragmentManager(), "endDatePicker");
-                endDatePicked = true;
             }
         });
     }
