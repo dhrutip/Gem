@@ -16,14 +16,12 @@
 
     <ImageButton
         android:id="@+id/ibUpdateProfilePic"
-        android:layout_width="35dp"
-        android:layout_height="29dp"
-        android:layout_alignRight="@id/ivProfilePic"
-        android:layout_alignBottom="@id/ivProfilePic"
-        android:layout_marginRight="-10dp"
-        android:layout_marginBottom="-8dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/tvUsername"
         android:background="#00FFFFFF"
-        android:src="@drawable/update_profile_pic" />
+        android:src="@drawable/edit_profile" />
 
     <TextView
         android:id="@+id/tvUsername"
@@ -49,7 +47,7 @@
         android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ibUpdateProfilePic"
+        android:layout_below="@id/ivProfilePic"
         android:layout_marginTop="16dp"
         app:tabMode="fixed" />
 

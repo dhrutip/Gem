@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    tools:context=".EditProfileActivity">
+
+    <ImageView
+        android:id="@+id/ivEditProfilePic"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/profilepic_blank"
+        android:layout_marginTop="48dp" />
+
+    <ImageButton
+        android:id="@+id/ibCameraEditProfilePic"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignRight="@id/ivEditProfilePic"
+        android:layout_alignBottom="@id/ivEditProfilePic"
+        android:layout_marginRight="-12dp"
+        android:layout_marginBottom="-12dp"
+        android:background="#00FFFFFF"
+        android:src="@drawable/update_profile_pic" />
+
+    <TextView
+        android:id="@+id/tvEditUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivEditProfilePic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:text="Username"
+        android:textSize="38dp"/>
+
+    <EditText
+        android:id="@+id/etEditBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvEditUsername"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="This is a bio!"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/btnSaveEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/etEditBio"
+        android:layout_marginTop="64dp"
+        android:text="save changes"/>
+
+</RelativeLayout>

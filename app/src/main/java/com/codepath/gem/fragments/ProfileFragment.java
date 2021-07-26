@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.codepath.gem.EditProfileActivity;
 import com.codepath.gem.ExperienceDetailsActivity;
 import com.codepath.gem.LoginActivity;
 import com.codepath.gem.MainActivity;
@@ -117,8 +118,8 @@ public class ProfileFragment extends Fragment {
         ibUpdateProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "update profile pic", Toast.LENGTH_LONG).show();
-                launchCamera();
+                Intent i = new Intent(getContext(), EditProfileActivity.class);
+                startActivity(i);
             }
         });
 
@@ -140,55 +141,5 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
-    }
-
-    private void launchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName); // reference for future access
-
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                saveUser();
-            } else { // failure
-                Toast.makeText(getContext(), "picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void saveUser() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseFile newProfilePic = new ParseFile(photoFile);
-        currentUser.put("profilePic", newProfilePic);
-        currentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Glide.with(getContext())
-                        .load(newProfilePic.getUrl())
-                        .circleCrop()
-                        .into(ivProfilePic);
-            }
-        });
-    }
-
-    // gets the uniform resource identifier
-    private File getPhotoFileUri(String photoFileName) {
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-        // return the file target for the photo based on filename
-        File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
-        return file;
     }
 }
