@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -26,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.gem.MainActivity;
@@ -45,7 +47,10 @@ import org.parceler.Parcels;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -59,16 +64,15 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
 
     public static final String TAG = "CreateFragment";
     public final static int PICK_PHOTO_CODE = 1046;
-    private EditText etTitle;
-    private EditText etDescription;
-    private ImageButton btnCaptureImage;
-    private ImageButton btnSetLocation;
-    private ImageView ivImageOne;
-    private ImageView ivImageTwo;
-    private Button btnCreate;
-    List mBitmapsSelected;
-    List filesSelected;
+    private EditText etTitle, etDescription;
+    private ImageButton btnCaptureImage, btnSetLocation;
+    private ImageView ivImageOne, ivImageTwo;
+    private Button btnCreate, btnStartDate, btnEndDate;
+    List mBitmapsSelected, filesSelected;
     public static LatLng location;
+    private TextView tvInfoStartDate, tvInfoEndDate;
+    private boolean startDatePicked, endDatePicked;
+    Date startDate, endDate;
 
     public CreateFragment() {
         // Required empty public constructor
@@ -92,6 +96,10 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
         ivImageOne = view.findViewById(R.id.ivImageOne);
         ivImageTwo = view.findViewById(R.id.ivImageTwo);
         btnCreate = view.findViewById(R.id.btnCreate);
+        btnStartDate = view.findViewById(R.id.btnStartDate);
+        btnEndDate = view.findViewById(R.id.btnEndDate);
+        tvInfoStartDate = view.findViewById(R.id.tvInfoStartDate);
+        tvInfoEndDate = view.findViewById(R.id.tvInfoEndDate);
         filesSelected = new ArrayList<ParseFile>();
         location = null;
 
@@ -233,6 +241,18 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        // TODO: complete implementation
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, dayOfMonth);
+        String date = DateFormat.getDateInstance().format(cal.getTime());
+        if (startDatePicked) {
+            tvInfoStartDate.setText(date);
+            startDate = cal.getTime();
+            startDatePicked = false;
+        }
+        if (endDatePicked) {
+            tvInfoEndDate.setText(date);
+            endDate = cal.getTime();
+            endDatePicked = false;
+        }
     }
 }

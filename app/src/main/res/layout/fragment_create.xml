@@ -48,6 +48,40 @@
         android:layout_marginStart="16dp"
         android:src="@drawable/photo_blank"/>
 
+    <TextView
+        android:id="@+id/tvInfoStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivImageOne"
+        android:layout_alignParentStart="true"
+        android:text="Start Date"/>
+
+    <Button
+        android:id="@+id/btnStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvInfoStartDate"
+        android:layout_alignParentStart="true"
+        android:text="Choose Start Date"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/tvInfoEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivImageOne"
+        android:layout_alignParentEnd="true"
+        android:text="End Date"/>
+
+    <Button
+        android:id="@+id/btnEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvInfoEndDate"
+        android:layout_alignParentEnd="true"
+        android:text="Choose End Date"
+        android:textAllCaps="false" />
+
     <ImageButton
         android:id="@+id/btnSetLocation"
         android:layout_width="50dp"
