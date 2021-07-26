@@ -66,14 +66,11 @@ import static android.app.Activity.RESULT_OK;
  */
 public class ProfileFragment extends Fragment {
 
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public static final String TAG = "ProfileFragment";
     TextView tvUsername;
     TextView tvBio;
     ImageView ivProfilePic;
     ImageButton ibUpdateProfilePic;
-    private File photoFile;
-    public String photoFileName = "photo.jpg";
     TabLayout tabLayout;
     ViewPager viewPager;
 

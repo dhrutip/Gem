@@ -44,6 +44,7 @@ To view my (constantly updating) project plan and follow my progress, check out 
    - [x] Users can create custom tag filters for experiences
 - [x] Users can view profile page
    - [x] Profile page displays a 'my commitments' tab and a 'my listings' tab
+   - [x] User can edit profile pic and bio
 - [ ] Users can leave reviews on experiences
 - [x] Users can un-favorite posts
 - [x] Users can delete their posts

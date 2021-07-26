@@ -1,5 +1,6 @@
 package com.codepath.gem.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,7 +55,7 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  * @source https://guides.codepath.org/android/Accessing-the-Camera-and-Stored-Media
  */
-public class CreateFragment extends Fragment {
+public class CreateFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "CreateFragment";
     public final static int PICK_PHOTO_CODE = 1046;
@@ -227,5 +229,10 @@ public class CreateFragment extends Fragment {
                 btnSetLocation.setColorFilter(null);
             }
         });
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        // TODO: complete implementation
     }
 }
