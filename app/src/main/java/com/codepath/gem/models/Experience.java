@@ -22,6 +22,8 @@ public class Experience extends ParseObject {
     public static final String KEY_HOST = "host";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_LOCATION = "location";
+    public static final String KEY_START_DATE = "startDate";
+    public static final String KEY_END_DATE = "endDate";
 
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -82,6 +84,22 @@ public class Experience extends ParseObject {
     public void setLocation(LatLng latLng) {
         ParseGeoPoint location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
         put(KEY_LOCATION, location);
+    }
+
+    public Date getStartDate() {
+        return getDate(KEY_START_DATE);
+    }
+
+    public void setStartDate(Date startDate) {
+        put(KEY_START_DATE, startDate);
+    }
+
+    public Date getEndDate() {
+        return getDate(KEY_END_DATE);
+    }
+
+    public void setEndDate(Date endDate) {
+        put(KEY_END_DATE, endDate);
     }
 
     public static String getRelativeTimeAgo(Date date) {

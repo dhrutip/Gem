@@ -145,6 +145,26 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
                 saveExperience(title, description, currentUser);
             }
         });
+
+        btnStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment startDatePicker = new DatePickerFragment();
+                startDatePicker.setTargetFragment(CreateFragment.this, 0);
+                startDatePicker.show(getFragmentManager(), "startDatePicker");
+                startDatePicked = true;
+            }
+        });
+
+        btnEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment endDatePicker = new DatePickerFragment();
+                endDatePicker.setTargetFragment(CreateFragment.this, 0);
+                endDatePicker.show(getFragmentManager(), "endDatePicker");
+                endDatePicked = true;
+            }
+        });
     }
 
     public void onSelectImages() {
@@ -221,6 +241,8 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
         }
         experience.setLocation(location);
         experience.setHost(currentUser);
+        experience.setStartDate(startDate);
+        experience.setEndDate(endDate);
         experience.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -231,6 +253,8 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
                 Log.i(TAG, "post save works!");
                 etTitle.setText("");
                 etDescription.setText("");
+                tvInfoStartDate.setText("End Date");
+                tvInfoEndDate.setText("Start Date");
                 ivImageOne.setImageResource(R.drawable.photo_blank);
                 ivImageTwo.setImageResource(R.drawable.photo_blank);
                 btnCaptureImage.setColorFilter(null);
