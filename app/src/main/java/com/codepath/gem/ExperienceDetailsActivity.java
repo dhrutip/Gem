@@ -38,7 +38,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     TextView tvDetailsTitle, tvDetailsDescription, tvStartDateDetails, tvEndDateDetails;
     ImageView ivDetailsImageOne, ivDetailsImageTwo;
     ImageButton ibDetailsAddInterest, ibDeleteExperience, ibRemoveCommitment;
-    Button btnDetailsLocate;
+    Button btnDetailsLocate, btnDetailsConnectHost;
     boolean commitmentExists;
     boolean deleteCommitment = false;
     Context context;
@@ -58,6 +58,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         ibDeleteExperience = findViewById(R.id.ibDeleteExperience);
         ibRemoveCommitment = findViewById(R.id.ibRemoveCommitment);
         btnDetailsLocate = findViewById(R.id.btnDetailsLocate);
+        btnDetailsConnectHost = findViewById(R.id.btnDetailsConnectHost);
         context = this;
 
         experience = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
@@ -176,6 +177,14 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                 Intent i = new Intent(ExperienceDetailsActivity.this, MapsActivity.class);
                 i.putExtra(Experience.class.getSimpleName(), Parcels.wrap(experience));
                 startActivity(i);
+            }
+        });
+
+        btnDetailsConnectHost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExperienceDetailsActivity.this, ChatActivity.class);
+                startActivity(intent);
             }
         });
     }

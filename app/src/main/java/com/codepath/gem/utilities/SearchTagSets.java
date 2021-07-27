@@ -35,9 +35,9 @@ public class SearchTagSets {
     public static void populateNatureTags() {
         if (natureTags.size() == 0) {
             natureTags.add("trees");
-            natureTags.add("mountains");
+            natureTags.add("mountain");
             natureTags.add("beach");
-            natureTags.add("animals");
+            natureTags.add("animal");
             natureTags.add("coast");
             natureTags.add("lake");
         }
