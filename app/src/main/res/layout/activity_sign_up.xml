@@ -36,6 +36,16 @@
         android:hint="re-enter password"
         android:inputType="textPassword" />
 
+<!--    <com.royrodriguez.transitionbutton.TransitionButton-->
+<!--        android:id="@+id/btnCreateAccount"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_below="@id/etPasswordTwo"-->
+<!--        android:text="Sign Up"-->
+<!--        app:defaultColor="#AD7DD0"-->
+<!--        app:loaderColor="@android:color/white"-->
+<!--        android:textColor="@android:color/white"/> -->
     <Button
         android:id="@+id/btnCreateAccount"
         android:layout_width="match_parent"

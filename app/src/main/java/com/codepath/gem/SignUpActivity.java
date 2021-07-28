@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.royrodriguez.transitionbutton.TransitionButton;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -65,22 +67,6 @@ public class SignUpActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    if (ActivityCompat.checkSelfPermission(SignUpActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SignUpActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(SignUpActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-                    } else {
-                        // getting last know user's location
-                        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        // checking if the location is null
-                        if (location != null) {
-                            // if it isn't, save it to Back4App Dashboard
-                            ParseGeoPoint currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-                            ParseUser currentUser = ParseUser.getCurrentUser();
-                            if (currentUser != null) {
-                                currentUser.put("location", currentUserLocation);
-                                currentUser.saveInBackground();
-                            }
-                        }
-                    }
                     goLoginActivity(); // successful signup
                 } else {
                     Log.e(TAG, "issue with creating user" + e); // unsuccessful signup

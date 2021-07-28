@@ -60,4 +60,5 @@ dependencies {
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.24.1' // parse sdk
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
     implementation 'tyrantgit:explosionfield:1.0.1' // explosion animation
+    implementation 'com.royrodriguez:transitionbutton:0.2.0' // transition button animation
 }
