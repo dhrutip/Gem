@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnSignUp;
     private TransitionButton btnLogin;
+    private boolean successfulLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (test) {
+                        if (successfulLogin) {
                             btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
                                 @Override
                                 public void onAnimationStopEnd() {
@@ -75,24 +76,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean test = false;
     private boolean loginUser(String username, String password) {
-        // navigate to main activity if user has successfully signed in
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "issue with login", e);
-                    test = false;
+                    successfulLogin = false;
                     Toast.makeText(LoginActivity.this, "issue with login:(", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                test = true;
-//                navigateMainActivity();
+                successfulLogin = true;
                 Toast.makeText(LoginActivity.this, "successful login!", Toast.LENGTH_SHORT).show();
             }
         });
-        return test;
+        return successfulLogin;
     }
 
     private void navigateMainActivity() {
