@@ -183,9 +183,13 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         btnDetailsConnectHost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExperienceDetailsActivity.this, ChatActivity.class);
-                intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(experience));
-                startActivity(intent);
+                if (ChatActivity.compareUserName(ParseUser.getCurrentUser(), experience.getHost()) != 0) {
+                    Intent intent = new Intent(ExperienceDetailsActivity.this, ChatActivity.class);
+                    intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(experience));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ExperienceDetailsActivity.this, "you are the host!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

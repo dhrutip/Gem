@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -65,9 +67,6 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true); // order messages from newest to oldest
         rvChat.setLayoutManager(linearLayoutManager);
 
-        setConvo();
-        refreshMessages();
-
         // When send button is clicked, create message object on Parse
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +74,15 @@ public class ChatActivity extends AppCompatActivity {
                 sendNewMessage();
             }
         });
+
+        setConvo();
+        Handler handler = new Handler(); // required for setConvo() to finish first
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshMessages();
+            }
+        }, 400);
     }
 
     private void setConvo() {
@@ -131,7 +139,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     // compares usernames to ensure lexicographic ordering
-    private int compareUserName(ParseUser userOne, ParseUser userTwo) {
+    public static int compareUserName(ParseUser userOne, ParseUser userTwo) {
         String nameOne = "";
         try {
             nameOne = userOne.fetchIfNeeded().getString("username");
@@ -176,6 +184,7 @@ public class ChatActivity extends AppCompatActivity {
     void refreshMessages() {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+        query.whereEqualTo(Message.KEY_CONVERSATION, convo);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
