@@ -30,6 +30,8 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import tyrantgit.explosionfield.ExplosionField;
+
 public class ExperienceDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "ExperienceDetailsActivity";
@@ -42,6 +44,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     boolean commitmentExists;
     boolean deleteCommitment = false;
     Context context;
+    private ExplosionField mExplosionField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
         btnDetailsLocate = findViewById(R.id.btnDetailsLocate);
         btnDetailsConnectHost = findViewById(R.id.btnDetailsConnectHost);
         context = this;
+        mExplosionField = ExplosionField.attach2Window(this);
 
         experience = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
         tvDetailsTitle.setText(experience.getTitle());
@@ -110,7 +114,15 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                                     experience.deleteInBackground();
-                                    returnToMain();
+                                    mExplosionField.explode(ivDetailsImageOne);
+                                    mExplosionField.explode(ivDetailsImageTwo);
+                                    Handler handler = new Handler(); // required for explosions to finish first
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            returnToMain();
+                                        }
+                                    }, 600);
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -143,9 +155,16 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                                     .setCancelable(true)
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                                            deleteCommitment = true;
-                                            checkCommitment();
-                                            returnToMain();
+                                            mExplosionField.explode(ibDetailsAddInterest);
+                                            Handler handler = new Handler(); // required for explosion to finish first
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    deleteCommitment = true;
+                                                    checkCommitment();
+                                                    returnToMain();
+                                                }
+                                            }, 600);
                                         }
                                     })
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {

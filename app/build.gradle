@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.4.0' // places
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.24.1' // parse sdk
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
+    implementation 'tyrantgit:explosionfield:1.0.1' // explosion animation
 }

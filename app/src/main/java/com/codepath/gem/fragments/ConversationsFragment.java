@@ -1,5 +1,6 @@
 package com.codepath.gem.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,15 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.codepath.gem.ChatActivity;
+import com.codepath.gem.ExperienceDetailsActivity;
 import com.codepath.gem.R;
 import com.codepath.gem.adapters.ConversationsAdapter;
 import com.codepath.gem.models.Conversation;
+import com.codepath.gem.models.Experience;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,5 +117,11 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
     public void onConversationClick(int position) {
         Toast.makeText(getContext(), "on click!!", Toast.LENGTH_SHORT).show();
         // TODO: complete implementation
+        Conversation clickedConversation = allConversations.get(position);
+        // get the users from the conversation -- one will be the current user,
+        // other will be the expUser (in chat activity)
+        // create an intent with the expUser as an extra. see how to put in parseusers as extras in intents
+        // in chat activity, instead of unwrapping an experience, unwrap a user
+        // in the experience details view, instead of sending over the experience, send the host
     }
 }
