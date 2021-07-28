@@ -14,13 +14,17 @@ import android.widget.Toast;
 
 import com.codepath.gem.adapters.ChatAdapter;
 import com.codepath.gem.models.Conversation;
+import com.codepath.gem.models.Experience;
 import com.codepath.gem.models.Message;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,9 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
     Boolean mFirstLoad; // tracks initial load to scroll to bottom of list view
+    Experience exp;
+    Conversation convo;
+    ParseUser currUser, expHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,39 +54,122 @@ public class ChatActivity extends AppCompatActivity {
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
-        mAdapter = new ChatAdapter(ChatActivity.this, ParseUser.getCurrentUser(), ParseUser.getCurrentUser(), mMessages); // TODO: make both different users
+        exp = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
+        mAdapter = new ChatAdapter(ChatActivity.this, ParseUser.getCurrentUser(), exp.getHost(), mMessages);
         rvChat.setAdapter(mAdapter);
+        currUser = ParseUser.getCurrentUser();
+        expHost = exp.getHost();
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         linearLayoutManager.setReverseLayout(true); // order messages from newest to oldest
         rvChat.setLayoutManager(linearLayoutManager);
 
+        setConvo();
         refreshMessages();
 
         // When send button is clicked, create message object on Parse
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String data = etMessage.getText().toString();
-                Message message = new Message();
-                message.setSender(ParseUser.getCurrentUser());
-                message.setBody(data);
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                    Toast.LENGTH_SHORT).show();
-                            refreshMessages();
-                        } else {
-                            Log.e(TAG, "Failed to save message", e);
-                        }
-                    }
-                });
-                etMessage.setText(null);
+                sendNewMessage();
             }
         });
+    }
+
+    private void setConvo() {
+        ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+        if (compareUserName(currUser, expHost) > 0) { // expHost < currUser
+            query.whereEqualTo(Conversation.KEY_USER_SENDER, expHost);
+            query.whereEqualTo(Conversation.KEY_USER_RECEIVER, currUser);
+        } else if (compareUserName(currUser, expHost) < 0) { // currUser < expHost
+            query.whereEqualTo(Conversation.KEY_USER_SENDER, currUser);
+            query.whereEqualTo(Conversation.KEY_USER_RECEIVER, expHost);
+        }
+        query.getFirstInBackground(new GetCallback<Conversation>() {
+            public void done(Conversation c, ParseException e) {
+                if (e != null) {
+                    final int statusCode = e.getCode();
+                    if (statusCode == ParseException.OBJECT_NOT_FOUND) {
+                        // conversation did not exist on the parse backend
+                        Log.i(TAG, "convo doesn't exist, make convo");
+                        Toast.makeText(ChatActivity.this, "convo doesn't exist!", Toast.LENGTH_SHORT).show();
+                        createConvo();
+
+                    }
+                } else {
+                    Log.i(TAG, "convo already exists, no need for new convo");
+                    Toast.makeText(ChatActivity.this, "convo already exists!", Toast.LENGTH_SHORT).show();
+                    convo = c;
+                }
+            }
+        });
+    }
+
+    // creates a new conversation in lexicographic order of usernames
+    private void createConvo() {
+        convo = new Conversation();
+        if (compareUserName(currUser, expHost) > 0) {
+            convo.setUserSender(expHost);
+            convo.setUserReceiver(currUser);
+        } else {
+            convo.setUserSender(currUser);
+            convo.setUserReceiver(expHost);
+        }
+        convo.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(ChatActivity.this, "successfully created convo on Parse",
+                            Toast.LENGTH_SHORT).show();
+                    refreshMessages();
+                } else {
+                    Log.e(TAG, "Failed to save convo", e);
+                }
+            }
+        });
+    }
+
+    // compares usernames to ensure lexicographic ordering
+    private int compareUserName(ParseUser userOne, ParseUser userTwo) {
+        String nameOne = "";
+        try {
+            nameOne = userOne.fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.e(TAG, "Something has gone terribly wrong with Parse", e);
+        }
+
+        String nameTwo = "";
+        try {
+            nameTwo = userTwo.fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.e(TAG, "Something has gone terribly wrong with Parse", e);
+        }
+        if (nameOne != null && nameTwo != null) {
+            return nameOne.compareToIgnoreCase(nameTwo);
+        }
+        return 0;
+    }
+
+    private void sendNewMessage() {
+        String data = etMessage.getText().toString();
+        Message message = new Message();
+        message.setSender(currUser);
+        message.setBody(data);
+        message.setConversation(convo);
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(ChatActivity.this, "successfully created message on Parse",
+                            Toast.LENGTH_SHORT).show();
+                    refreshMessages();
+                } else {
+                    Log.e(TAG, "Failed to save message", e);
+                }
+            }
+        });
+        etMessage.setText(null);
     }
 
     // query messages from Parse so we can load them into the chat adapter

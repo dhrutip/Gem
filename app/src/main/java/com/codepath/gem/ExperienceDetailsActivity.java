@@ -184,6 +184,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ExperienceDetailsActivity.this, ChatActivity.class);
+                intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(experience));
                 startActivity(intent);
             }
         });
