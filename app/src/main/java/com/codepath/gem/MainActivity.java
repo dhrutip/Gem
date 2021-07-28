@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.codepath.gem.fragments.ConversationsFragment;
 import com.codepath.gem.fragments.CreateFragment;
 import com.codepath.gem.fragments.HomeFragment;
 import com.codepath.gem.fragments.ProfileFragment;
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_create:
                         fragment = new CreateFragment();
                         FRAGMENT_TAG = CreateFragment.TAG;
+                        break;
+                    case R.id.action_chat:
+                        fragment = new ConversationsFragment();
+                        FRAGMENT_TAG = ConversationsFragment.TAG;
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
