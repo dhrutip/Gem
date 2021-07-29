@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnSignUp;
     private TransitionButton btnLogin;
-    private boolean successfulLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +44,6 @@ public class LoginActivity extends AppCompatActivity {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
-
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (successfulLogin) {
-                            btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
-                                @Override
-                                public void onAnimationStopEnd() {
-                                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(intent);
-                                }
-                            });
-                        } else {
-                            btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
-                        }
-                    }
-                }, 2000);
             }
         });
 
@@ -76,21 +56,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean loginUser(String username, String password) {
+    private void loginUser(String username, String password) {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "issue with login", e);
-                    successfulLogin = false;
+                    btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
                     Toast.makeText(LoginActivity.this, "issue with login:(", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                successfulLogin = true;
+                btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
+                    @Override
+                    public void onAnimationStopEnd() {
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                    }
+                });
                 Toast.makeText(LoginActivity.this, "successful login!", Toast.LENGTH_SHORT).show();
             }
         });
-        return successfulLogin;
     }
 
     private void navigateMainActivity() {
