@@ -23,6 +23,7 @@ import com.codepath.gem.R;
 import com.codepath.gem.SearchActivity;
 import com.codepath.gem.adapters.ExperiencesAdapter;
 import com.codepath.gem.models.Experience;
+import com.codepath.gem.utilities.KotlinSearchTagSets;
 import com.codepath.gem.utilities.SearchTagSets;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -78,11 +79,11 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         rvExperiences = view.findViewById(R.id.rvExperiences);
         allExperiences = new ArrayList<>();
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
-        SearchTagSets.populateDefaultTags();
-        SearchTagSets.populateFoodTags();
-        SearchTagSets.populateNatureTags();
-        SearchTagSets.populateAttractionsTags();
-        SearchTagSets.populateAccessibleTags();
+        KotlinSearchTagSets.populateDefaultTags();
+        KotlinSearchTagSets.populateFoodTags();
+        KotlinSearchTagSets.populateNatureTags();
+        KotlinSearchTagSets.populateAttractionsTags();
+        KotlinSearchTagSets.populateAccessibleTags();
 
         if (homeLatitude == null && homeLongitude == null) {
             homeLatitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLatitude();
@@ -124,7 +125,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         query.include(Experience.KEY_HOST);
         query.setLimit(20);
         query.whereWithinMiles(Experience.KEY_LOCATION, geoPoint, homeRadius);
-        if (homeTag != null && !homeTag.equals(KEY_ALL) && !SearchTagSets.defaultTags.contains(homeTag)) {
+        if (homeTag != null && !homeTag.equals(KEY_ALL) && !KotlinSearchTagSets.defaultTags.contains(homeTag)) {
             query.whereContains(Experience.KEY_DESCRIPTION, homeTag); // custom tag
         }
         query.addDescendingOrder(Experience.KEY_CREATED_AT);
@@ -136,7 +137,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
                     return;
                 }
                 // filter by related keyword sets if the tag is a default tag
-                if (homeTag != null && !homeTag.equals(KEY_ALL) && SearchTagSets.defaultTags.contains(homeTag)) {
+                if (homeTag != null && !homeTag.equals(KEY_ALL) && KotlinSearchTagSets.defaultTags.contains(homeTag)) {
                     ArrayList<Experience> removeExperiences = new ArrayList<>();
                     for (int i = 0; i < experiencesList.size(); i++) {
                         Experience experience = experiencesList.get(i);
@@ -173,13 +174,13 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         // classifying based on keyword sets
         Set<String> selectedTags = new HashSet<>();
         if (tag.equals(KEY_FOOD)) {
-            selectedTags = SearchTagSets.foodTags;
+            selectedTags = KotlinSearchTagSets.foodTags;
         } else if (tag.equals(KEY_NATURE)) {
-            selectedTags = SearchTagSets.natureTags;
+            selectedTags = KotlinSearchTagSets.natureTags;
         } else if (tag.equals(KEY_ATTRACTIONS)) {
-            selectedTags = SearchTagSets.attractionsTags;
+            selectedTags = KotlinSearchTagSets.attractionsTags;
         } else if (tag.equals(KEY_ACCESSIBLE)) {
-            selectedTags = SearchTagSets.accessibleTags;
+            selectedTags = KotlinSearchTagSets.accessibleTags;
         }
         if (selectedTags.size() > 0) {
             for (String subTag : selectedTags) {

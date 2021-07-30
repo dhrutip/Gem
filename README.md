@@ -45,10 +45,10 @@ To view my (constantly updating) project plan and follow my progress, check out 
 - [x] Users can view profile page
    - [x] Profile page displays a 'my commitments' tab and a 'my listings' tab
    - [x] User can edit profile pic and bio
-- [ ] Users can leave reviews on experiences
+- [x] Travelers can chat with locals
 - [x] Users can un-favorite posts
 - [x] Users can delete their posts
-- [ ] Travelers can chat with locals
+- [ ] Users can leave reviews on experiences
 - [ ] Users get notifications for nearby activities (OR, users get notifications before activities they marked as interested)
 
 
