@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class ChatActivity extends AppCompatActivity {
 
     public static final String TAG = "ChatActivity";
+    public static final String KEY_SEND_USER = "sendUser";
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     EditText etMessage;
     ImageButton ibSend;
@@ -56,11 +57,11 @@ public class ChatActivity extends AppCompatActivity {
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
-        exp = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
-        mAdapter = new ChatAdapter(ChatActivity.this, ParseUser.getCurrentUser(), exp.getHost(), mMessages);
+        expHost = getIntent().getExtras().getParcelable(KEY_SEND_USER);
+        mAdapter = new ChatAdapter(ChatActivity.this, ParseUser.getCurrentUser(), expHost, mMessages);
         rvChat.setAdapter(mAdapter);
         currUser = ParseUser.getCurrentUser();
-        expHost = exp.getHost();
+
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
@@ -218,7 +219,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         // Only start checking for new messages when the app becomes active in foreground
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }

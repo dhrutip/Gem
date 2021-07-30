@@ -204,7 +204,9 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (ChatActivity.compareUserName(ParseUser.getCurrentUser(), experience.getHost()) != 0) {
                     Intent intent = new Intent(ExperienceDetailsActivity.this, ChatActivity.class);
-                    intent.putExtra(Experience.class.getSimpleName(), Parcels.wrap(experience));
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(ChatActivity.KEY_SEND_USER, experience.getHost());
+                    intent.putExtras(bundle);;
                     startActivity(intent);
                 } else {
                     Toast.makeText(ExperienceDetailsActivity.this, "you are the host!", Toast.LENGTH_SHORT).show();

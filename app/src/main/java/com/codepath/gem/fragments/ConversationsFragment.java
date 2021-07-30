@@ -116,12 +116,33 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
     @Override
     public void onConversationClick(int position) {
         Toast.makeText(getContext(), "on click!!", Toast.LENGTH_SHORT).show();
-        // TODO: complete implementation
         Conversation clickedConversation = allConversations.get(position);
-        // get the users from the conversation -- one will be the current user,
-        // other will be the expUser (in chat activity)
-        // create an intent with the expUser as an extra. see how to put in parseusers as extras in intents
-        // in chat activity, instead of unwrapping an experience, unwrap a user
-        // in the experience details view, instead of sending over the experience, send the host
+        ParseUser userToSend = null;
+        ParseUser userOne = clickedConversation.getUserSender();
+        String userOneName = "";
+        try {
+            userOneName = userOne.fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.e(TAG, "Something has gone terribly wrong with Parse", e);
+        }
+        ParseUser userTwo = clickedConversation.getUserReceiver();
+        String userTwoName = "";
+        try {
+            userTwoName = userTwo.fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.e(TAG, "Something has gone terribly wrong with Parse", e);
+        }
+        if (userOneName.equals(ParseUser.getCurrentUser().getUsername())) {
+            userToSend = userOne;
+        } else if (userTwoName.equals(ParseUser.getCurrentUser().getUsername())) {
+            userToSend = userTwo;
+        }
+        if (userToSend != null) {
+            Intent toChat = new Intent(getContext(), ChatActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(ChatActivity.KEY_SEND_USER, userToSend);
+            toChat.putExtras(bundle);
+            startActivity(toChat);
+        }
     }
 }
