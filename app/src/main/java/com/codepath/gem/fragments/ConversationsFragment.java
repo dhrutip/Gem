@@ -78,7 +78,6 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
                     Toast.makeText(getContext(), "error getting conversations:(", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "error getting conversations");
                 } else {
-                    Toast.makeText(getContext(), "successfully got conversations! " + conversations.size(), Toast.LENGTH_SHORT).show();
                     allQueriedConversations.addAll(conversations);
                 }
             }
@@ -97,7 +96,6 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
                     Toast.makeText(getContext(), "error getting conversations:(", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "error getting conversations");
                 } else {
-                    Toast.makeText(getContext(), "successfully got conversations! " + conversations.size(), Toast.LENGTH_SHORT).show();
                     allQueriedConversations.addAll(conversations);
                 }
             }

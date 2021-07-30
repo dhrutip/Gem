@@ -102,13 +102,11 @@ public class ChatActivity extends AppCompatActivity {
                     if (statusCode == ParseException.OBJECT_NOT_FOUND) {
                         // conversation did not exist on the parse backend
                         Log.i(TAG, "convo doesn't exist, make convo");
-                        Toast.makeText(ChatActivity.this, "convo doesn't exist!", Toast.LENGTH_SHORT).show();
                         createConvo();
 
                     }
                 } else {
                     Log.i(TAG, "convo already exists, no need for new convo");
-                    Toast.makeText(ChatActivity.this, "convo already exists!", Toast.LENGTH_SHORT).show();
                     convo = c;
                 }
             }
@@ -129,8 +127,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(ChatActivity.this, "successfully created convo on Parse",
-                            Toast.LENGTH_SHORT).show();
                     refreshMessages();
                 } else {
                     Log.e(TAG, "Failed to save convo", e);
@@ -170,8 +166,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(ChatActivity.this, "successfully created message on Parse",
-                            Toast.LENGTH_SHORT).show();
                     refreshMessages();
                 } else {
                     Log.e(TAG, "Failed to save message", e);

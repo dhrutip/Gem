@@ -87,58 +87,8 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             ivDetailsImageTwo.setVisibility(View.INVISIBLE);
         }
 
-        String currUsername = "";
-        try {
-            currUsername = ParseUser.getCurrentUser().fetchIfNeeded().getString(KEY_USER_USERNAME);
-        } catch (ParseException e) {
-            Log.v(TAG, e.toString());
-            e.printStackTrace();
-        }
-
-        String hostUsername = "";
-        try {
-            hostUsername = experience.getHost().fetchIfNeeded().getString(KEY_USER_USERNAME);
-        } catch (ParseException e) {
-            Log.v(TAG, e.toString());
-            e.printStackTrace();
-        }
-        // allow host to delete their own experiences
-        if (currUsername.equals(hostUsername)) {
-            ibDeleteExperience.setVisibility(View.VISIBLE);
-            ibDeleteExperience.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(ExperienceDetailsActivity.this);
-                    builder.setMessage("Are you sure you want to delete this experience?")
-                            .setCancelable(true)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                                    experience.deleteInBackground();
-                                    mExplosionField.explode(ivDetailsImageOne);
-                                    mExplosionField.explode(ivDetailsImageTwo);
-                                    Handler handler = new Handler(); // required for explosions to finish first
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            returnToMain();
-                                        }
-                                    }, 600);
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    final AlertDialog alert = builder.create();
-                    alert.show();
-                }
-            });
-        } else {
-            ibDeleteExperience.setVisibility(View.INVISIBLE);
-        }
-
         // fill heart icon if already committed, otherwise allow user to add a commitment via double tap
+        // allow host to delete their own listings, and delete commitment if listing is a commitment
         checkCommitment();
         Handler handler = new Handler(); // required for checkCommitment() to finish first
         handler.postDelayed(new Runnable() {
@@ -187,6 +137,59 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+                String currUsername = "";
+                try {
+                    currUsername = ParseUser.getCurrentUser().fetchIfNeeded().getString(KEY_USER_USERNAME);
+                } catch (ParseException e) {
+                    Log.v(TAG, e.toString());
+                }
+                String hostUsername = "";
+                try {
+                    hostUsername = experience.getHost().fetchIfNeeded().getString(KEY_USER_USERNAME);
+                } catch (ParseException e) {
+                    Log.v(TAG, e.toString());
+                }
+                // allow host to delete their own listings
+                if (currUsername.equals(hostUsername)) {
+                    ibDeleteExperience.setVisibility(View.VISIBLE);
+                    ibDeleteExperience.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(ExperienceDetailsActivity.this);
+                            builder.setMessage("Are you sure you want to delete this experience?")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                            // if listing is a commitment, delete the commitment first
+                                            if (commitmentExists == true) {
+                                                deleteCommitment = true;
+                                                checkCommitment();
+                                            }
+                                            experience.deleteInBackground();
+                                            mExplosionField.explode(ivDetailsImageOne);
+                                            mExplosionField.explode(ivDetailsImageTwo);
+                                            Handler handler = new Handler(); // required for explosions to finish first
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    returnToMain();
+                                                }
+                                            }, 600);
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            final AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+                    });
+                } else {
+                    ibDeleteExperience.setVisibility(View.INVISIBLE);
+                }
             }
         }, 400);
 
@@ -221,7 +224,6 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     }
 
     private void checkCommitment() {
-        // Toast.makeText(ExperienceDetailsActivity.this, "checking for commitment", Toast.LENGTH_SHORT).show();
         // check if commitment already exists
         ParseQuery<Commitment> query = ParseQuery.getQuery(Commitment.class);
         query.whereEqualTo(Commitment.KEY_USER, ParseUser.getCurrentUser());
@@ -236,7 +238,6 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.i(TAG, "commitment already exists, no need for new commitment");
-                    // Toast.makeText(ExperienceDetailsActivity.this, "commitment already exists!", Toast.LENGTH_SHORT).show();
                     commitmentExists = true;
                     if (deleteCommitment) {
                         commitment.deleteInBackground();
@@ -247,7 +248,6 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     }
 
     public void createCommitment() {
-        // Toast.makeText(ExperienceDetailsActivity.this, "creating new commitment!", Toast.LENGTH_SHORT).show();
         ParseObject newCommitment = ParseObject.create("Commitment");
         newCommitment.put(Commitment.KEY_USER, ParseUser.getCurrentUser());
         newCommitment.put(Commitment.KEY_EXPERIENCE, experience);
