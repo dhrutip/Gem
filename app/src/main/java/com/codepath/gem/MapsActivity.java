@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,12 +21,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.codepath.gem.databinding.ActivityMapsBinding;
 // Parse Dependencies
+import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -81,11 +84,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (e == null) {
                     Log.i(TAG, "size: " + experiences.size());
                     for(int i = 0; i < experiences.size(); i++) {
+                        IconGenerator iconGenerator = new IconGenerator(MapsActivity.this);
+                        iconGenerator.setStyle(IconGenerator.STYLE_WHITE);
+                        Bitmap bitmap = iconGenerator.makeIcon("Click here to navigate!");
+                        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
                         LatLng experienceLocation = new LatLng(experiences.get(i).getParseGeoPoint(Experience.KEY_LOCATION).getLatitude(), experiences.get(i).getParseGeoPoint("location").getLongitude());
                         marker = new MarkerOptions()
                                 .position(experienceLocation)
-                                .title(experiences.get(i).getString(Experience.KEY_TITLE))
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                                .icon(icon);
                         googleMap.addMarker(marker);
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(experienceLocation));
                     }

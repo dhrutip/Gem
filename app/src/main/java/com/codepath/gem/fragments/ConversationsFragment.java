@@ -113,7 +113,6 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
 
     @Override
     public void onConversationClick(int position) {
-        Toast.makeText(getContext(), "on click!!", Toast.LENGTH_SHORT).show();
         Conversation clickedConversation = allConversations.get(position);
         ParseUser userToSend = null;
         ParseUser userOne = clickedConversation.getUserSender();

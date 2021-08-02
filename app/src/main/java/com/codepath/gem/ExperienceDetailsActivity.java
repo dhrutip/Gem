@@ -90,7 +90,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             String dateOne = dateOneLong.substring(0, dateOneLong.length()-18);
             String dateTwoLong = experience.getEndDate().toString();
             String dateTwo = dateTwoLong.substring(0, dateTwoLong.length()-18);
-            tvDetailsDates.setText(dateOne + "\n" + "\n" + "--" + "\n" + "\n" + dateTwo);
+            tvDetailsDates.setText(dateOne + "\n" + "\n" + "\n" + "\n" + "\n" + dateTwo);
         }
         if (experience.getImageOne() != null) {
             Glide.with(this)
