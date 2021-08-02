@@ -24,6 +24,7 @@ import com.codepath.gem.models.Commitment;
 import com.codepath.gem.models.Experience;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -37,10 +38,10 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
     public static final String TAG = "ExperienceDetailsActivity";
     public static final String KEY_USER_USERNAME = "username";
     Experience experience;
-    TextView tvDetailsTitle, tvDetailsDescription, tvStartDateDetails, tvEndDateDetails;
-    ImageView ivDetailsImageOne, ivDetailsImageTwo;
+    TextView tvDetailsTitle, tvDetailsDescription, tvDetailsDates, tvHostedBy, tvConnectHost;
+    ImageView ivDetailsImageOne, ivDetailsImageTwo, ivDetailsHostPic;
     ImageButton ibDetailsAddInterest, ibDeleteExperience, ibRemoveCommitment;
-    Button btnDetailsLocate, btnDetailsConnectHost;
+    Button btnDetailsLocate;
     boolean commitmentExists;
     boolean deleteCommitment = false;
     Context context;
@@ -53,24 +54,43 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
 
         tvDetailsTitle = findViewById(R.id.tvDetailsTitle);
         tvDetailsDescription = findViewById(R.id.tvDetailsDescription);
-        tvStartDateDetails = findViewById(R.id.tvStartDateDetails);
-        tvEndDateDetails = findViewById(R.id.tvEndDateDetails);
+        tvDetailsDates = findViewById(R.id.tvDetailsDates);
+        tvHostedBy = findViewById(R.id.tvHostedBy);
+        tvConnectHost = findViewById(R.id.tvConnectHost);
         ivDetailsImageOne = findViewById(R.id.ivDetailsImageOne);
         ivDetailsImageTwo = findViewById(R.id.ivDetailsImageTwo);
+        ivDetailsHostPic = findViewById(R.id.ivDetailsHostPic);
         ibDetailsAddInterest = findViewById(R.id.ibDetailsAddInterest);
         ibDeleteExperience = findViewById(R.id.ibDeleteExperience);
         ibRemoveCommitment = findViewById(R.id.ibRemoveCommitment);
         btnDetailsLocate = findViewById(R.id.btnDetailsLocate);
-        btnDetailsConnectHost = findViewById(R.id.btnDetailsConnectHost);
         context = this;
         mExplosionField = ExplosionField.attach2Window(this);
 
         experience = (Experience) Parcels.unwrap(getIntent().getParcelableExtra(Experience.class.getSimpleName()));
         tvDetailsTitle.setText(experience.getTitle());
         tvDetailsDescription.setText(experience.getDescription());
+        String hostName = "";
+        try {
+            hostName = experience.getHost().fetchIfNeeded().getString("username");
+        } catch (ParseException e) {
+            Log.e(TAG, "Something has gone terribly wrong with Parse", e);
+        }
+        String hostText = "Hosted by " + hostName + ".";
+        tvHostedBy.setText(hostText);
+        ParseFile profilePic = experience.getHost().getParseFile("profilePic");
+        if (profilePic != null) {
+            Glide.with(this)
+                    .load(profilePic.getUrl())
+                    .circleCrop()
+                    .into(ivDetailsHostPic);
+        }
         if (experience.getStartDate() != null && experience.getEndDate() != null) {
-            tvStartDateDetails.setText(experience.getStartDate().toString());
-            tvEndDateDetails.setText(experience.getEndDate().toString());
+            String dateOneLong = experience.getStartDate().toString();
+            String dateOne = dateOneLong.substring(0, dateOneLong.length()-18);
+            String dateTwoLong = experience.getEndDate().toString();
+            String dateTwo = dateTwoLong.substring(0, dateTwoLong.length()-18);
+            tvDetailsDates.setText(dateOne + "\n" + "\n" + "--" + "\n" + "\n" + dateTwo);
         }
         if (experience.getImageOne() != null) {
             Glide.with(this)
@@ -202,7 +222,7 @@ public class ExperienceDetailsActivity extends AppCompatActivity {
             }
         });
 
-        btnDetailsConnectHost.setOnClickListener(new View.OnClickListener() {
+        tvConnectHost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ChatActivity.compareUserName(ParseUser.getCurrentUser(), experience.getHost()) != 0) {

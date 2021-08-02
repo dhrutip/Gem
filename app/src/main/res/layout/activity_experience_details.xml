@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     tools:context=".ExperienceDetailsActivity">
 
     <TextView
         android:id="@+id/tvDetailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ivDetailsImageOne"
+        android:layout_toLeftOf="@id/ibDetailsAddInterest"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:text="Title goes here"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:textSize="32dp" />
 
     <TextView
@@ -21,83 +23,104 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvDetailsTitle"
+        android:layout_toLeftOf="@id/ibDetailsAddInterest"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:maxLines="4"
+        android:textSize="16dp"
         android:text="Experience description goes here" />
 
     <ImageView
         android:id="@+id/ivDetailsImageOne"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@id/tvDetailsDescription"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="38dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/photo_blank" />
 
     <ImageView
         android:id="@+id/ivDetailsImageTwo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="240dp"
         android:layout_below="@id/tvDetailsDescription"
         android:layout_marginStart="16dp"
-        android:layout_toEndOf="@id/ivDetailsImageOne"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/photo_blank" />
 
     <TextView
-        android:id="@+id/tvStartDateTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvDetailsDates"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+        android:layout_toEndOf="@id/ivDetailsImageTwo"
+        android:layout_alignTop="@id/ivDetailsImageTwo"
+        android:background="@drawable/background_box"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <ImageView
+        android:id="@+id/ivDetailsHostPic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/photo_blank"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivDetailsImageOne"
-        android:layout_marginTop="16dp"
-        android:text="Start Date:"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        />
 
     <TextView
-        android:id="@+id/tvStartDateDetails"
+        android:id="@+id/tvHostedBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvStartDateTitle"
-        android:layout_toEndOf="@id/tvStartDateTitle"
-        android:layout_marginStart="2dp"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/ivDetailsHostPic"
+        android:textSize="16dp"
+        tools:text="hosted by user" />
 
     <TextView
-        android:id="@+id/tvEndDateTitle"
+        android:id="@+id/tvConnectHost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvStartDateTitle"
-        android:text="End Date: "/>
-
-    <TextView
-        android:id="@+id/tvEndDateDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/tvEndDateTitle"
-        android:layout_toEndOf="@+id/tvEndDateTitle"
-        android:layout_marginStart="2dp"/>
-
-    <Button
-        android:id="@+id/btnDetailsConnectHost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvEndDateTitle"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:text="connect with host!" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@id/tvHostedBy"
+        android:textStyle="bold"
+        android:textColor="#55405c"
+        android:textSize="16dp"
+        android:clickable="true"
+        android:text="Connect?"/>
 
     <Button
         android:id="@+id/btnDetailsLocate"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnDetailsConnectHost"
-        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/ivDetailsImageTwo"
+        android:layout_below="@id/tvDetailsDates"
+        android:layout_alignBottom="@id/ivDetailsImageTwo"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-5dp"
         android:text="locate" />
 
     <ImageButton
         android:id="@+id/ibDetailsAddInterest"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@id/btnDetailsLocate"
-        android:layout_centerHorizontal="true"
-        android:background="#00FFFFFF"
+        android:layout_below="@id/ivDetailsImageOne"
+        android:layout_alignTop="@id/tvDetailsTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/favorite_border" />
 
     <ImageButton
@@ -105,8 +128,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:background="#00FFFFFF"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:foregroundTint="@color/white"
         android:src="@drawable/delete_experience"/>
 
     <ImageButton
@@ -114,8 +138,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:background="#00FFFFFF"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:foregroundTint="@color/white"
         android:src="@drawable/remove_commitment"/>
     
 </RelativeLayout>

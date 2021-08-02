@@ -17,6 +17,8 @@ import com.parse.ParseFile;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.ViewHolder> {
 
     public static final String TAG = "ExperiencesAdapter";
@@ -51,7 +53,9 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
             tvDescription.setText(experience.getDescription());
             ParseFile coverPic = experience.getImageOne();
             if (coverPic != null) {
-                Glide.with(context).load(coverPic.getUrl()).into(ivCoverPic);
+                Glide.with(context)
+                        .load(coverPic.getUrl())
+                        .into(ivCoverPic);
             }
         }
 
