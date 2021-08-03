@@ -21,7 +21,6 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-import com.royrodriguez.transitionbutton.TransitionButton;
 
 public class SignUpActivity extends AppCompatActivity {
 

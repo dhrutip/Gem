@@ -27,14 +27,26 @@
         android:layout_toEndOf="@id/tvWelcomeTo"
         android:text="Gem."/>
 
-    <ImageView
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/tvWelcomeTo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp"
-        app:tint="#4a3352"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/gem"/>
+        app:shimmer_duration="2000"
+        app:shimmer_tilt="50"
+        android:layout_marginTop="56dp">
+
+        <ImageView
+            android:id="@+id/ivGem"
+            android:layout_below="@id/tvWelcomeTo"
+            android:layout_centerHorizontal="true"
+            app:tint="#4a3352"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/gem"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <TextView
         android:id="@+id/LoginUpUsername"
