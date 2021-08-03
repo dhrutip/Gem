@@ -5,11 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -18,7 +16,6 @@ import com.codepath.gem.fragments.CreateFragment;
 import com.codepath.gem.fragments.HomeFragment;
 import com.codepath.gem.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    goLoginActivity();
+                    goSplashScreenActivity();
                 } else {
                     Toast.makeText(MainActivity.this, "logout issue:(", Toast.LENGTH_SHORT).show();
                     return;
@@ -117,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void goLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);
+    private void goSplashScreenActivity() {
+        Intent i = new Intent(this, SplashScreenActivity.class);
         startActivity(i);
         finish();
     }
