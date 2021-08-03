@@ -4,100 +4,184 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="12dp"
     tools:context=".fragments.CreateFragment">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:shimmer_duration="2000"
+        app:shimmer_tilt="50"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/ivGem"
+            android:layout_below="@id/tvWelcomeTo"
+            android:layout_centerHorizontal="true"
+            app:tint="#4a3352"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/gem"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <TextView
+        android:id="@+id/CreateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/shimmer_view_container"/>
 
     <EditText
         android:id="@+id/etTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="title..."
-        android:textSize="32dp"/>
+        android:hint="Enter Title"
+        android:layout_marginTop="4dp"
+        android:textSize="16dp"
+        android:layout_below="@id/CreateTitle"
+        android:background="@drawable/background_box"/>
+
+    <TextView
+        android:id="@+id/CreateDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/etTitle"/>
 
     <EditText
         android:id="@+id/etDescription"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:ems="10"
-        android:hint="description..."
-        android:layout_below="@id/etTitle"/>
+        android:hint="Enter Description"
+        android:textSize="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/background_box"
+        android:layout_below="@id/CreateDescription"/>
 
-    <ImageButton
-        android:id="@+id/btnCaptureImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignEnd="@id/etDescription"
-        android:layout_alignParentRight="true"
-        android:background="#00FFFFFF"
-        android:src="@drawable/add_photo" />
+    <TextView
+        android:id="@+id/CreateStartDate"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Start Date"
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/etDescription"/>
+
+    <TextView
+        android:id="@+id/tvSetStartDate"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Select Start Date"
+        android:textSize="16dp"
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/background_box"
+        android:layout_below="@id/CreateStartDate"/>
+
+    <TextView
+        android:id="@+id/CreateEndDate"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/CreateStartDate"
+        android:layout_alignBottom="@id/CreateStartDate"/>
+
+    <TextView
+        android:id="@+id/tvSetEndDate"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Select End Date"
+        android:textSize="16dp"
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/background_box"
+        android:layout_toEndOf="@id/tvSetStartDate"
+        android:layout_below="@id/CreateEndDate"/>
+
+    <TextView
+        android:id="@+id/CreateLocation"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/tvSetStartDate"/>
+
+    <TextView
+        android:id="@+id/tvSetLocation"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Select Location"
+        android:textSize="16dp"
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/background_box"
+        android:layout_below="@id/CreateLocation"/>
+
+    <TextView
+        android:id="@+id/CreateImage"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Images"
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/CreateLocation"
+        android:layout_alignBottom="@id/CreateLocation"/>
+
+    <TextView
+        android:id="@+id/tvSetImages"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Select Images"
+        android:textSize="16dp"
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/background_box"
+        android:layout_toEndOf="@id/tvSetLocation"
+        android:layout_below="@id/CreateImage"/>
 
     <ImageView
         android:id="@+id/ivImageOne"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@id/etDescription"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/tvSetLocation"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="70dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/photo_blank" />
 
     <ImageView
         android:id="@+id/ivImageTwo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@id/etDescription"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/tvSetLocation"
         android:layout_toEndOf="@id/ivImageOne"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/photo_blank"/>
 
-    <TextView
-        android:id="@+id/tvInfoStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivImageOne"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentStart="true"
-        android:text="Start Date"/>
-
-    <Button
-        android:id="@+id/btnStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvInfoStartDate"
-        android:layout_alignParentStart="true"
-        android:text="Choose Start Date"
-        android:textAllCaps="false" />
-
-    <TextView
-        android:id="@+id/tvInfoEndDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivImageOne"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentEnd="true"
-        android:text="End Date"/>
-
-    <Button
-        android:id="@+id/btnEndDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvInfoEndDate"
-        android:layout_alignParentEnd="true"
-        android:text="Choose End Date"
-        android:textAllCaps="false" />
-
-    <ImageButton
-        android:id="@+id/btnSetLocation"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:background="#00FFFFFF"
-        android:src="@drawable/add_location" />
 
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create!"
+        android:text="Create"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

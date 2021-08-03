@@ -65,12 +65,11 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
     public static final String TAG = "CreateFragment";
     public final static int PICK_PHOTO_CODE = 1046;
     private EditText etTitle, etDescription;
-    private ImageButton btnCaptureImage, btnSetLocation;
     private ImageView ivImageOne, ivImageTwo;
-    private Button btnCreate, btnStartDate, btnEndDate;
+    private Button btnCreate;
     List mBitmapsSelected, filesSelected;
     public static LatLng location;
-    private TextView tvInfoStartDate, tvInfoEndDate;
+    private TextView tvSetStartDate, tvSetEndDate, tvSetLocation, tvSetImages;
     private boolean startDatePicked, endDatePicked;
     Date startDate, endDate;
 
@@ -91,36 +90,34 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
         setHasOptionsMenu(false);
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
-        btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
-        btnSetLocation = view.findViewById(R.id.btnSetLocation);
+        tvSetImages = view.findViewById(R.id.tvSetImages);
         ivImageOne = view.findViewById(R.id.ivImageOne);
         ivImageTwo = view.findViewById(R.id.ivImageTwo);
         btnCreate = view.findViewById(R.id.btnCreate);
-        btnStartDate = view.findViewById(R.id.btnStartDate);
-        btnEndDate = view.findViewById(R.id.btnEndDate);
-        tvInfoStartDate = view.findViewById(R.id.tvInfoStartDate);
-        tvInfoEndDate = view.findViewById(R.id.tvInfoEndDate);
+        tvSetStartDate = view.findViewById(R.id.tvSetStartDate);
+        tvSetEndDate = view.findViewById(R.id.tvSetEndDate);
+        tvSetLocation = view.findViewById(R.id.tvSetLocation);
         filesSelected = new ArrayList<ParseFile>();
         location = null;
 
-        btnCaptureImage.setOnClickListener(new View.OnClickListener() {
+        tvSetImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSelectImages();
-                btnCaptureImage.setColorFilter(Color.BLACK);
+                tvSetImages.setText("Images Selected!");
             }
         });
 
-        btnSetLocation.setOnClickListener(new View.OnClickListener() {
+        tvSetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SetLocationActivity.class);
                 startActivity(intent);
-                btnSetLocation.setColorFilter(Color.BLACK);
+                tvSetLocation.setText("Location Selected!");
             }
         });
 
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
+        tvSetStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment startDatePicker = new DatePickerFragment();
@@ -130,7 +127,7 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
             }
         });
 
-        btnEndDate.setOnClickListener(new View.OnClickListener() {
+        tvSetEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment endDatePicker = new DatePickerFragment();
@@ -265,12 +262,10 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
                 Log.i(TAG, "post save works!");
                 etTitle.setText("");
                 etDescription.setText("");
-                tvInfoStartDate.setText("End Date");
-                tvInfoEndDate.setText("Start Date");
+                tvSetStartDate.setText("Select Start Date");
+                tvSetEndDate.setText("Select End Date");
                 ivImageOne.setImageResource(R.drawable.photo_blank);
                 ivImageTwo.setImageResource(R.drawable.photo_blank);
-                btnCaptureImage.setColorFilter(null);
-                btnSetLocation.setColorFilter(null);
             }
         });
     }
@@ -281,12 +276,12 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
         cal.set(year, month, dayOfMonth);
         String date = DateFormat.getDateInstance().format(cal.getTime());
         if (startDatePicked) {
-            tvInfoStartDate.setText(date);
+            tvSetStartDate.setText(date);
             startDate = cal.getTime();
             startDatePicked = false;
         }
         if (endDatePicked) {
-            tvInfoEndDate.setText(date);
+            tvSetEndDate.setText(date);
             endDate = cal.getTime();
             endDatePicked = false;
         }
