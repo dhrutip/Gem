@@ -8,22 +8,74 @@
     android:layout_margin="16dp"
     tools:context=".SignUpActivity">
 
+    <TextView
+        android:id="@+id/tvWelcomeTo"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32dp"
+        android:text="Welcome to "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#4a3352"
+        android:textStyle="bold"
+        android:textSize="32dp"
+        android:layout_alignTop="@id/tvWelcomeTo"
+        android:layout_toEndOf="@id/tvWelcomeTo"
+        android:text="Gem."/>
+
+    <ImageView
+        android:layout_below="@id/tvWelcomeTo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        app:tint="#4a3352"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/gem"/>
+
+    <TextView
+        android:id="@+id/SignUpUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textSize="16dp"
+        android:layout_below="@id/tvWelcomeTo"
+        android:layout_marginTop="280dp"/>
+
     <EditText
         android:id="@+id/etNewUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/SignUpUsername"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
+        android:background="@drawable/background_box"
         android:ems="10"
-        android:hint="username" />
+        android:hint="Username" />
+
+    <TextView
+        android:id="@+id/SignUpPassOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textSize="16dp"
+        android:layout_below="@id/etNewUsername"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/etPasswordOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_below="@id/etNewUsername"
+        android:layout_below="@id/SignUpPassOne"
         android:ems="10"
-        android:hint="password"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_box"
+        android:hint="Password"
         android:inputType="textPassword" />
 
     <EditText
@@ -33,7 +85,9 @@
         android:layout_weight="1"
         android:layout_below="@id/etPasswordOne"
         android:ems="10"
-        android:hint="re-enter password"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_box"
+        android:hint="Re-enter password"
         android:inputType="textPassword" />
 
     <com.royrodriguez.transitionbutton.TransitionButton
@@ -43,8 +97,7 @@
         android:layout_weight="1"
         android:layout_below="@id/etPasswordTwo"
         android:text="Sign Up"
-        app:defaultColor="#AD7DD0"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         app:loaderColor="@android:color/white"
         android:textColor="@android:color/white"/>
 

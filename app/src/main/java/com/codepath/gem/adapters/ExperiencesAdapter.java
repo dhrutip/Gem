@@ -1,6 +1,7 @@
 package com.codepath.gem.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.gem.R;
 import com.codepath.gem.models.Experience;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -37,6 +39,7 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
         private ImageView ivCoverPic;
         private TextView tvTitle;
         private TextView tvDescription;
+        private ImageView ivFeedProfilePic;
         private OnExperienceListener onExperienceListener;
 
         public ViewHolder(@NonNull View itemView, OnExperienceListener onExperienceListener) {
@@ -44,6 +47,7 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
             ivCoverPic = itemView.findViewById(R.id.ivCoverPic);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivFeedProfilePic = itemView.findViewById(R.id.ivFeedProfilePic);
             this.onExperienceListener = onExperienceListener;
             itemView.setOnClickListener(this);
         }
@@ -56,6 +60,20 @@ public class ExperiencesAdapter extends RecyclerView.Adapter<ExperiencesAdapter.
                 Glide.with(context)
                         .load(coverPic.getUrl())
                         .into(ivCoverPic);
+            }
+
+            ParseFile profilePic = null;
+            try {
+                profilePic = experience.getHost().fetchIfNeeded().getParseFile("profilePic");
+            } catch (ParseException e) {
+                Log.e(TAG, "Something has gone terribly wrong with Parse", e);
+            }
+
+            if (profilePic != null) {
+                Glide.with(context)
+                        .load(profilePic.getUrl())
+                        .circleCrop()
+                        .into(ivFeedProfilePic);
             }
         }
 
