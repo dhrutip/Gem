@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.gem.ChatActivity;
@@ -39,6 +40,7 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
     public RecyclerView rvAllConversations;
     public ConversationsAdapter conversationsAdapter;
     public List<Conversation> allConversations;
+    TextView tvLoading;
 
     public ConversationsFragment() {
         // Required empty public constructor
@@ -55,6 +57,8 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvAllConversations = view.findViewById(R.id.rvAllConversations);
+        tvLoading = view.findViewById(R.id.tvLoading);
+        tvLoading.setVisibility(View.VISIBLE);
         allConversations = new ArrayList<>();
         conversationsAdapter = new ConversationsAdapter(getContext(), allConversations, this);
         rvAllConversations.setAdapter(conversationsAdapter);
@@ -105,6 +109,7 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                tvLoading.setVisibility(View.INVISIBLE);
                 allConversations.addAll(allQueriedConversations);
                 conversationsAdapter.notifyDataSetChanged();
             }

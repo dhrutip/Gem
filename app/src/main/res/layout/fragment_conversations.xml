@@ -48,6 +48,16 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+    <TextView
+        android:id="@+id/tvLoading"
+        android:text="Loading Conversations..."
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/shimmer_view_container"
+        android:layout_marginTop="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAllConversations"
         android:layout_width="match_parent"

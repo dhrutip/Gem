@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.codepath.gem.ExperienceDetailsActivity;
 import com.codepath.gem.R;
@@ -39,6 +41,7 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
     protected List<Experience> allExperiences;
     protected ExperiencesAdapter experiencesAdapter;
     private SwipeRefreshLayout swipeContainer;
+    RelativeLayout rlLoading;
 
     public CommitmentsFragment() {
         // Required empty public constructor
@@ -57,6 +60,8 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
         rvExperiences = view.findViewById(R.id.rvExperiences);
         allExperiences = new ArrayList<>();
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
+        rlLoading = view.findViewById(R.id.rlLoading);
+        rlLoading.setVisibility(View.VISIBLE);
 
         rvExperiences.setAdapter(experiencesAdapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -88,6 +93,7 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
         query.findInBackground(new FindCallback<Commitment>() {
             @Override
             public void done(List<Commitment> commitmentsList, ParseException e) {
+                rlLoading.setVisibility(View.INVISIBLE);
                 ArrayList<Experience> experienceList = new ArrayList<>();
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);

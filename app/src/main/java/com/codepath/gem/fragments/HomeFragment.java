@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.codepath.gem.ExperienceDetailsActivity;
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     private Double homeLatitude, homeLongitude;
     private String homeTag;
     private ParseGeoPoint geoPoint;
+    private RelativeLayout rlLoading;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -77,6 +79,8 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         rvExperiences = view.findViewById(R.id.rvExperiences);
+        rlLoading = view.findViewById(R.id.rlLoading);
+        rlLoading.setVisibility(View.VISIBLE);
         allExperiences = new ArrayList<>();
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
         KotlinSearchTagSets.populateDefaultTags();
@@ -153,6 +157,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
                         experiencesList.remove(exp);
                     }
                 }
+                rlLoading.setVisibility(View.INVISIBLE);
                 Log.i(TAG, "after query, lat: " + geoPoint.getLatitude() + " long: " + geoPoint.getLongitude() + " rad: " + homeRadius);
                 allExperiences.addAll(experiencesList);
                 experiencesAdapter.notifyDataSetChanged();
