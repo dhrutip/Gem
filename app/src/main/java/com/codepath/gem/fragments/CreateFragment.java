@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -72,6 +76,7 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
     private TextView tvSetStartDate, tvSetEndDate, tvSetLocation, tvSetImages;
     private boolean startDatePicked, endDatePicked;
     Date startDate, endDate;
+    KonfettiView konfettiView;
 
     public CreateFragment() {
         // Required empty public constructor
@@ -99,6 +104,7 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
         tvSetLocation = view.findViewById(R.id.tvSetLocation);
         filesSelected = new ArrayList<ParseFile>();
         location = null;
+        konfettiView = view.findViewById(R.id.viewKonfetti);
 
         tvSetImages.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +176,15 @@ public class CreateFragment extends Fragment implements DatePickerDialog.OnDateS
                     Toast.makeText(getContext(), "Start date cannot be after end date", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                konfettiView.build()
+                        .addColors(Color.argb(1, 224, 198, 233), Color.argb(1, 74, 51, 82))
+                        .setDirection(0.0, 359.0)
+                        .setSpeed(1f, 4f)
+                        .setFadeOutEnabled(true)
+                        .setTimeToLive(500L)
+                        .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                        .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                        .streamFor(200, 2000L);
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 saveExperience(title, description, currentUser);
             }
