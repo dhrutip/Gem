@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             if (data.hasExtra(SearchActivity.KEY_SEARCH_TAG)) {
                 homeFragment.setHomeTag(data.getStringExtra(SearchActivity.KEY_SEARCH_TAG));
             }
+            homeFragment.searchRefresh();
         }
     }
 

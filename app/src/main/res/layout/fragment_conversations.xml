@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ConversationsFragment">
 
+    <TextView
+        android:id="@+id/tvCurrent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32dp"
+        android:text="Current "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#4a3352"
+        android:textStyle="bold"
+        android:textSize="32dp"
+        android:layout_alignTop="@id/tvCurrent"
+        android:layout_toEndOf="@id/tvCurrent"
+        android:text="Conversations"/>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:shimmer_duration="2000"
+        app:shimmer_tilt="50"
+        android:layout_marginTop="96dp">
+
+        <ImageView
+            android:id="@+id/ivGem"
+            android:layout_below="@id/tvWelcomeTo"
+            android:layout_centerHorizontal="true"
+            app:tint="#4a3352"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/gem"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAllConversations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/shimmer_view_container"
+        android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

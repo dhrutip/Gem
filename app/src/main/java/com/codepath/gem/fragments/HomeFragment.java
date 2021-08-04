@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     private Integer homeRadius;
     private Double homeLatitude, homeLongitude;
     private String homeTag;
-    ParseGeoPoint geoPoint;
+    private ParseGeoPoint geoPoint;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         if (homeLatitude == null && homeLongitude == null) {
             homeLatitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLatitude();
             homeLongitude = ParseUser.getCurrentUser().getParseGeoPoint("location").getLongitude();
-            geoPoint = new ParseGeoPoint(homeLatitude, homeLongitude);
+            setGeopoint(homeLatitude, homeLongitude);
             Log.i(TAG, "both lat and long null, made geopoint at " + geoPoint.getLatitude() + " " + geoPoint.getLongitude());
         }
 
@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
             @Override
             public void onRefresh() {
                 experiencesAdapter.clear();
-                geoPoint = new ParseGeoPoint(homeLatitude, homeLongitude);
+                setGeopoint(homeLatitude, homeLongitude);
                 Log.i(TAG, "swiped to refresh, made geopoint at " + geoPoint.getLatitude() + " " + geoPoint.getLongitude());
                 queryExperiences();
                 swipeContainer.setRefreshing(false);
@@ -206,6 +206,16 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
 
     public void setHomeTag(String searchTag) {
         homeTag = searchTag;
+    }
+
+    public void setGeopoint(double homeLat, double homeLong) {
+        geoPoint = new ParseGeoPoint(homeLat, homeLong);
+    }
+
+    public void searchRefresh() {
+        experiencesAdapter.clear();
+        setGeopoint(homeLatitude, homeLongitude);
+        queryExperiences();
     }
 
 }

@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (e != null) {
                     Log.e(TAG, "issue with login", e);
                     btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
-                    Toast.makeText(LoginActivity.this, "issue with login:(", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Try again.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 btnLogin.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
