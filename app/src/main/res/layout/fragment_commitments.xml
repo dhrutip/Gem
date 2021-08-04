@@ -19,11 +19,36 @@
             android:textSize="28dp"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/ivGem"
-            android:layout_alignBottom="@id/ivGem"/>
+            android:layout_toEndOf="@id/ivGemLoading"
+            android:layout_alignBottom="@id/ivGemLoading"/>
 
         <ImageView
-            android:id="@+id/ivGem"
+            android:id="@+id/ivGemLoading"
+            app:tint="#4a3352"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/gem"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlNoCommitments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Commitments Yet!"
+            android:textSize="21dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/ivGemNoCommitments"
+            android:layout_alignBottom="@id/ivGemNoCommitments"/>
+
+        <ImageView
+            android:id="@+id/ivGemNoCommitments"
             app:tint="#4a3352"
             android:layout_width="90dp"
             android:layout_height="90dp"

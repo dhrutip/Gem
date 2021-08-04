@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
     private Double homeLatitude, homeLongitude;
     private String homeTag;
     private ParseGeoPoint geoPoint;
-    private RelativeLayout rlLoading;
+    protected RelativeLayout rlLoading, rlNoGems;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -81,6 +81,8 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
         rvExperiences = view.findViewById(R.id.rvExperiences);
         rlLoading = view.findViewById(R.id.rlLoading);
         rlLoading.setVisibility(View.VISIBLE);
+        rlNoGems = view.findViewById(R.id.rlNoGems);
+        rlNoGems.setVisibility(View.INVISIBLE);
         allExperiences = new ArrayList<>();
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
         KotlinSearchTagSets.populateDefaultTags();
@@ -160,6 +162,9 @@ public class HomeFragment extends Fragment implements ExperiencesAdapter.OnExper
                 rlLoading.setVisibility(View.INVISIBLE);
                 Log.i(TAG, "after query, lat: " + geoPoint.getLatitude() + " long: " + geoPoint.getLongitude() + " rad: " + homeRadius);
                 allExperiences.addAll(experiencesList);
+                if (allExperiences.size() == 0) {
+                    rlNoGems.setVisibility(View.VISIBLE);
+                }
                 experiencesAdapter.notifyDataSetChanged();
             }
         });

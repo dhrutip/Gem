@@ -40,7 +40,7 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
     public RecyclerView rvAllConversations;
     public ConversationsAdapter conversationsAdapter;
     public List<Conversation> allConversations;
-    TextView tvLoading;
+    TextView tvLoading, tvNoConvos;
 
     public ConversationsFragment() {
         // Required empty public constructor
@@ -59,6 +59,8 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
         rvAllConversations = view.findViewById(R.id.rvAllConversations);
         tvLoading = view.findViewById(R.id.tvLoading);
         tvLoading.setVisibility(View.VISIBLE);
+        tvNoConvos = view.findViewById(R.id.tvNoConvos);
+        tvNoConvos.setVisibility(View.INVISIBLE);
         allConversations = new ArrayList<>();
         conversationsAdapter = new ConversationsAdapter(getContext(), allConversations, this);
         rvAllConversations.setAdapter(conversationsAdapter);
@@ -111,6 +113,9 @@ public class ConversationsFragment extends Fragment implements ConversationsAdap
             public void run() {
                 tvLoading.setVisibility(View.INVISIBLE);
                 allConversations.addAll(allQueriedConversations);
+                if (allConversations.size() == 0) {
+                    tvNoConvos.setVisibility(View.VISIBLE);
+                }
                 conversationsAdapter.notifyDataSetChanged();
             }
         }, 500);

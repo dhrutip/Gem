@@ -46,6 +46,7 @@ public class ListingsFragment extends CommitmentsFragment {
                 for (Experience experience : experiencesList) {
                     Log.i(TAG, "Experience: " + experience.getDescription() + ", username: " + experience.getHost().getUsername());
                 }
+                rlLoading.setVisibility(View.INVISIBLE);
                 allExperiences.addAll(experiencesList);
                 experiencesAdapter.notifyDataSetChanged();
             }

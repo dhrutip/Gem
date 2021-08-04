@@ -41,7 +41,7 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
     protected List<Experience> allExperiences;
     protected ExperiencesAdapter experiencesAdapter;
     private SwipeRefreshLayout swipeContainer;
-    RelativeLayout rlLoading;
+    RelativeLayout rlLoading, rlNoCommitments;
 
     public CommitmentsFragment() {
         // Required empty public constructor
@@ -62,6 +62,8 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
         experiencesAdapter = new ExperiencesAdapter(getContext(), allExperiences, this);
         rlLoading = view.findViewById(R.id.rlLoading);
         rlLoading.setVisibility(View.VISIBLE);
+        rlNoCommitments = view.findViewById(R.id.rlNoCommitments);
+        rlNoCommitments.setVisibility(View.INVISIBLE);
 
         rvExperiences.setAdapter(experiencesAdapter);
         rvExperiences.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -107,6 +109,9 @@ public class CommitmentsFragment extends Fragment implements ExperiencesAdapter.
                     experienceList.add(commitmentExp);
                 }
                 allExperiences.addAll(experienceList);
+                if (allExperiences.size() == 0) {
+                    rlNoCommitments.setVisibility(View.VISIBLE);
+                }
                 experiencesAdapter.notifyDataSetChanged();
             }
         });
