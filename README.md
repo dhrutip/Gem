@@ -10,7 +10,7 @@
 ### Description
 A travel app to discover hidden gems--destinations, eats, and experiences unique to locations, but often not found on your typical top 10 attractions lists. Curated by locals, Gem is a way to travel authentically--seeing, living, and embracing the culture of a destination as if you were part of the community itself.
 
-To view my (constantly updating) project plan and follow my progress, check out this [Notion](https://www.notion.so/gem-4475f976cb8e46f5bfdcfed954a1472b)!
+To view my (constantly updating) project plan and follow my progress, check out this [Notion!](https://www.notion.so/gem-4475f976cb8e46f5bfdcfed954a1472b)
 
 ### App Evaluation
 - **Category:** Travel
@@ -48,9 +48,6 @@ To view my (constantly updating) project plan and follow my progress, check out 
 - [x] Travelers can chat with locals
 - [x] Users can un-favorite posts
 - [x] Users can delete their posts
-- [ ] Users can leave reviews on experiences
-- [ ] Users get notifications for nearby activities (OR, users get notifications before activities they marked as interested)
-
 
 ### 2. Screen Archetypes
 
@@ -124,6 +121,48 @@ join table for users - experiences (to keep track of commitments)
 | experience   | pointer to Experience | unique id for the experience |
 
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+- Parse network request: querying for the current user's commitments
+~~~java
+ParseQuery<Commitment> query = ParseQuery.getQuery(Commitment.class);
+query.include(Commitment.KEY_USER);
+query.whereEqualTo(Commitment.KEY_USER, ParseUser.getCurrentUser());
+query.setLimit(20);
+query.addDescendingOrder(Commitment.KEY_CREATED_AT);
+query.findInBackground(new FindCallback<Commitment>() {
+   @Override
+   public void done(List<Commitment> commitmentsList, ParseException e) {
+         if (e != null) {
+            // Something went wrong
+         }
+         for (Commitment commitment : commitmentsList) {
+            // Retrieve each experience from the commitment
+            // Add each experienceto the adapter
+         }
+   }
+});
+~~~
+- Parse network request: querying for the current user's listings
+~~~java
+ParseQuery<Experience> query = ParseUser.getQuery(Experience.class);
+query.include(Experience.KEY_HOST);
+query.whereEqualTo(Experience.KEY_HOST, ParseUser.getCurrentUser());
+query.setLimit(20);
+query.addDescendingOrder(Post.KEY_CREATED_AT);
+query.findInBackground(new FindCallback<ParseUser>() {
+  public void done(List<ParseUser> listings, ParseException e) {
+    if (e != null) {
+        // Something went wrong
+    } else {
+        // The query was successful
+    }
+  }
+});
+~~~
+
+### External Libraries Used
+- [ExplosionField](https://github.com/tyrantgit/ExplosionField)
+- [Transition Button Android](https://github.com/roynx98/transition-button-android)
+- [Shimmer for Android](https://github.com/facebook/shimmer-android)
+- [KenBurnsView](https://github.com/flavioarfaria/KenBurnsView)
+- [Konfetti](https://github.com/DanielMartinus/Konfetti)
+- [Glide](https://github.com/bumptech/glide)
