@@ -43,7 +43,6 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
     Boolean mFirstLoad; // tracks initial load to scroll to bottom of list view
-    Experience exp;
     Conversation convo;
     ParseUser currUser, expHost;
 
@@ -61,7 +60,6 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new ChatAdapter(ChatActivity.this, ParseUser.getCurrentUser(), expHost, mMessages);
         rvChat.setAdapter(mAdapter);
         currUser = ParseUser.getCurrentUser();
-
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);

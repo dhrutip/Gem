@@ -35,18 +35,22 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:hint="@string/message_hint"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/background_box"
             android:inputType="textShortMessage"
             android:imeOptions="actionSend" />
 
         <ImageButton
             android:id="@+id/ibSend"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:gravity="center"
             android:paddingRight="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/send"
             android:src="@drawable/send_message"
+            app:tint="#4a3352"
             android:textSize="18sp" />
 
     </RelativeLayout>

@@ -36,23 +36,32 @@
         android:text="Username"
         android:textSize="38dp"/>
 
-    <EditText
-        android:id="@+id/etEditBio"
+    <TextView
+        android:id="@+id/tvEditBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvEditUsername"
-        android:layout_marginTop="16dp"
+        android:text="Bio"
+        android:textSize="18dp"
+        android:layout_marginTop="32dp"
+        android:layout_below="@id/tvEditUsername" />
+
+    <EditText
+        android:id="@+id/etEditBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEditBio"
         android:layout_centerHorizontal="true"
-        android:text="This is a bio!"
-        android:textSize="20dp"/>
+        android:background="@drawable/background_box"
+        android:layout_marginTop="8dp"
+        android:text="Enter Bio" />
 
     <Button
         android:id="@+id/btnSaveEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/etEditBio"
-        android:layout_marginTop="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
         android:text="save changes"/>
 
 </RelativeLayout>

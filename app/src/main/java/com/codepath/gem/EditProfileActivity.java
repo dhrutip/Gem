@@ -65,7 +65,6 @@ public class EditProfileActivity extends AppCompatActivity {
         ibCameraEditProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EditProfileActivity.this, "update profile pic", Toast.LENGTH_LONG).show();
                 launchCamera();
             }
         });

@@ -43,6 +43,7 @@ class KotlinSearchTagSets {
                 natureTags.add("animal")
                 natureTags.add("coast")
                 natureTags.add("lake")
+                natureTags.add("forested")
             }
         }
 
